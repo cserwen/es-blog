@@ -1,13 +1,18 @@
 package xyz.litterboys.esblog.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("article")
 public class ArticleController {
 
-    public void getArticle(){
+    @GetMapping("{articleId}")
+    public void getArticle(@PathVariable String articleId) {
+
+    }
+
+    @PostMapping("create")
+    private void createArticle() {
 
     }
 }

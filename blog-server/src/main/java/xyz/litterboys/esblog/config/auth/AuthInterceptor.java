@@ -1,4 +1,4 @@
-package xyz.litterboys.esblog.auth;
+package xyz.litterboys.esblog.config.auth;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         response.setContentType("text/html;charset=utf-8");
 
         String token = request.getHeader("token");
-        logger.info("token: "+ token);
+        logger.info("token: " + token);
 
         if (StringUtils.isEmpty(token)) {
             response.setCharacterEncoding("utf-8");
