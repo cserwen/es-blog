@@ -1,10 +1,10 @@
 package xyz.litterboys.esblog.config.auth;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import xyz.litterboys.esblog.util.TokenUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,9 +20,9 @@ public class AuthInterceptor implements HandlerInterceptor {
         response.setContentType("text/html;charset=utf-8");
 
         String token = request.getHeader("token");
-        logger.info("token: " + token);
+        logger.info("user login: " + token);
 
-        if (StringUtils.isEmpty(token)) {
+        if (!TokenUtils.verify(token)) {
             response.setCharacterEncoding("utf-8");
             response.setContentType("text/json; charset=utf-8");
             String jsonStr = "{\"code\":-2,\"msg\":\"用户未登录！\"}";

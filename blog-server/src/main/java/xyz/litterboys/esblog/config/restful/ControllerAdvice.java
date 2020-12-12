@@ -10,6 +10,7 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+import xyz.litterboys.esblog.exception.ParamException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,9 +34,15 @@ public class ControllerAdvice implements ResponseBodyAdvice<Object> {
         }
     }
 
+    @ExceptionHandler(value = ParamException.class)
+    public ResultUtil handleParamException(HttpServletRequest request, HttpServletResponse response, final ParamException e) {
+        logger.error(e.getMessage(), e);
+        return new ResultUtil(ResponseCode.PARAMERROR.getCode(), ResponseCode.PARAMERROR.getMsg(), e.getMessage());
+    }
+
     @ExceptionHandler
     public ResultUtil handleException(HttpServletRequest request, HttpServletResponse response, final Exception e) {
         logger.error(e.getMessage(), e);
-        return new ResultUtil(ResponseCode.ERROR.getCode(), e.getMessage(), null);
+        return new ResultUtil(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMsg(), e.getMessage());
     }
 }

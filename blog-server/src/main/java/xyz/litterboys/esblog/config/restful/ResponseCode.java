@@ -4,12 +4,7 @@ public enum ResponseCode {
 
     SUCCESS(0, "操作成功"),
     ERROR(1, "操作失败"),
-
-    //parameter
-    PARAM_TYPE_MISMATCH(1000, "参数类型错误"),
-    PARAM_BIND_EXCEPTION(1001, "参数绑定错误"),
-    PARAM_VIOLATION(1002, "参数不符合要求"),
-    PARAM_MISSING(1003, "参数未找到");
+    PARAMERROR(1000, "参数错误");
 
     ResponseCode(Integer code, String msg) {
         this.code = code;

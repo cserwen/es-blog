@@ -13,7 +13,7 @@ public class ResultUtil implements Serializable {
     public ResultUtil(Integer code, String msg, Object data) {
         this.code = code;
         this.msg = msg;
-        Data = data;
+        this.Data = data;
     }
 
     //返回成功数据
