@@ -50,4 +50,13 @@ public class UserServiceImpl implements UserService {
         userDao.updateById(user);
         return token;
     }
+
+    @Override
+    public Boolean userLogout(String username) {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("username", username);
+        User user = userDao.selectOne(userQueryWrapper);
+        user.setToken("");
+        return userDao.updateById(user) > 0;
+    }
 }

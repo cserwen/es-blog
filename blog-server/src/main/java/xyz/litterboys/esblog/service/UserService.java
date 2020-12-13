@@ -8,4 +8,6 @@ import java.util.HashMap;
 public interface UserService {
 
     HashMap<String, String> userLogin(User user);
+
+    Boolean userLogout(String username);
 }
