@@ -109,4 +109,21 @@ public class Article {
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", isDeleted=" + isDeleted +
+                ", isOpen=" + isOpen +
+                ", readTimes=" + readTimes +
+                ", viewerNums=" + viewerNums +
+                ", isReward=" + isReward +
+                ", categoryId=" + categoryId +
+                '}';
+    }
 }

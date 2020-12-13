@@ -25,7 +25,6 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws NormalException {
         String token = request.getHeader("token");
-        logger.info("user login: " + token);
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.eq("token", token);
         User user = userDao.selectOne(userQueryWrapper);

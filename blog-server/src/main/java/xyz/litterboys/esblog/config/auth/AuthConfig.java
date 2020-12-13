@@ -15,7 +15,9 @@ public class AuthConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authInterceptor).addPathPatterns("/article/create").addPathPatterns("/user/logout");
+        //需要进行token验证的接口
+        registry.addInterceptor(authInterceptor).addPathPatterns("/article/create").
+                addPathPatterns("/user/logout").addPathPatterns("/article/delete/*");
     }
 
     @Override
