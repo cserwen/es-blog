@@ -15,8 +15,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-[class^="el-icon-"],
-[class*=" el-icon-"]/*这里有空格*/
+[class^="el-icon-my"],
+[class*=" el-icon-my"]/*这里有空格*/
 {
   font-family: "iconfont" !important;
   font-size: 16px;
@@ -25,23 +25,23 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.el-icon-link:before {
+.el-icon-my-link:before {
   content: "\e661";
 }
 
-.el-icon-category:before {
+.el-icon-my-category:before {
   content: "\e652";
 }
 
-.el-icon-archive:before {
+.el-icon-my-archive:before {
   content: "\e660";
 }
 
-.el-icon-about:before {
+.el-icon-my-about:before {
   content: "\e634";
 }
 
-.el-icon-home:before {
+.el-icon-my-home:before {
   content: "\e608";
 }
 

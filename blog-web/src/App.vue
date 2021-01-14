@@ -3,11 +3,11 @@
     <el-container direction="horizontal">
       <transition name="fade">
         <el-aside id="aside" v-show="isShow" width="220px">
-          <el-button @click="this.$router.push({path: '/'})" class="menu" icon="el-icon-home">首页</el-button><br/>
-          <el-button @click="this.$router.push({path: '/archives'})" class="menu" icon="el-icon-archive">归档</el-button><br/>
-          <el-button @click="this.$router.push({path: '/categories'})" class="menu" icon="el-icon-category">分类</el-button><br/>
-          <el-button @click="this.$router.push({path: '/about'})" class="menu" icon="el-icon-about">关于</el-button><br/>
-          <el-button @click="this.$router.push({path: '/links'})" class="menu" icon="el-icon-link">友链</el-button><br/>
+          <el-button @click="this.$router.push({path: '/'})" class="menu" icon="el-icon-my-home">首页</el-button><br/>
+          <el-button @click="this.$router.push({path: '/archives'})" class="menu" icon="el-icon-my-archive">归档</el-button><br/>
+          <el-button @click="this.$router.push({path: '/categories'})" class="menu" icon="el-icon-my-category">分类</el-button><br/>
+          <el-button @click="this.$router.push({path: '/about'})" class="menu" icon="el-icon-my-about">关于</el-button><br/>
+          <el-button @click="this.$router.push({path: '/links'})" class="menu" icon="el-icon-my-link">友链</el-button><br/>
         </el-aside>
       </transition>
 
@@ -68,16 +68,16 @@ export default {
 @keyframes btn_enter {
   0% {
     opacity: 0;
-    left: 5px;
+    left: 0;
   }
 
   1% {
     opacity: 1;
-    left: 5px;
+    left: 0;
   }
 
   100% {
-    left: 225px;
+    left: 230px;
   }
 }
 
@@ -104,13 +104,13 @@ export default {
 }
 
 aside {
-  background-color: #3C8CE7; /* 浏览器不支持时显示 */
+  background-color: #3C8CE7;
   background-image: linear-gradient(to bottom right, #C2FFD8, #465EFB);
   left: 0;
   top: 0;
   position: fixed;
   height: 100vh;
-  box-shadow: 5px 3px 15px #4A4A4A;
+  box-shadow: 5px 3px 12px #4A4A4A;
   z-index: 2;
 }
 
@@ -133,14 +133,16 @@ aside {
 #btn-hide {
   position: fixed;
   top: 5px;
-  left: 225px;
+  left: 230px;
+  box-shadow:0 0 7px #4A4A4A;
 }
 
 #btn-show {
   position: fixed;
   top: 5px;
-  left: 5px;
+  left: 0;
   z-index: 1;
+  box-shadow:0 0 7px #4A4A4A;
 }
 
 #aside .el-button {
