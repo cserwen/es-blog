@@ -2,8 +2,12 @@
   <div id="app">
     <el-container direction="horizontal">
       <transition name="fade">
-        <el-aside id="aside" v-show="isShow">
-          这是一行字！
+        <el-aside id="aside" v-show="isShow" width="220px">
+          <el-button @click="this.$router.push({path: '/'})" class="menu" icon="el-icon-home">首页</el-button><br/>
+          <el-button @click="this.$router.push({path: '/archives'})" class="menu" icon="el-icon-archive">归档</el-button><br/>
+          <el-button @click="this.$router.push({path: '/categories'})" class="menu" icon="el-icon-category">分类</el-button><br/>
+          <el-button @click="this.$router.push({path: '/about'})" class="menu" icon="el-icon-about">关于</el-button><br/>
+          <el-button @click="this.$router.push({path: '/links'})" class="menu" icon="el-icon-link">友链</el-button><br/>
         </el-aside>
       </transition>
 
@@ -17,6 +21,7 @@
           <el-button @click="collapseStatus" id="btn-show"
                      icon="custom-icon el-icon-s-unfold" circle
                      v-show="!isShow"></el-button>
+          <router-view/>
         </el-main>
         <el-footer id="footer">Footer</el-footer>
       </el-container>
@@ -47,12 +52,12 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  /*color: #2c3e50;*/
 }
 
 @keyframes show {
   0% {
-    left: -300px;
+    left: -220px;
   }
 
   100% {
@@ -72,7 +77,7 @@ export default {
   }
 
   100% {
-    left: 305px;
+    left: 225px;
   }
 }
 
@@ -98,13 +103,14 @@ export default {
   min-height: 100vh;
 }
 
-#aside {
-  background-color: #0396FF;
+aside {
+  background-color: #3C8CE7; /* 浏览器不支持时显示 */
+  background-image: linear-gradient(to bottom right, #C2FFD8, #465EFB);
   left: 0;
   top: 0;
   position: fixed;
   height: 100vh;
-  box-shadow: 1px 0 0 0 gray;
+  box-shadow: 5px 3px 15px #4A4A4A;
   z-index: 2;
 }
 
@@ -127,7 +133,7 @@ export default {
 #btn-hide {
   position: fixed;
   top: 5px;
-  left: 305px;
+  left: 225px;
 }
 
 #btn-show {
@@ -136,4 +142,13 @@ export default {
   left: 5px;
   z-index: 1;
 }
+
+#aside .el-button {
+  margin: 5px;
+  padding: 5px 20px;
+  background: none;
+  color: black;
+  border: none;
+}
+
 </style>
