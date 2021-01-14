@@ -3,15 +3,20 @@
     <el-container direction="horizontal">
       <transition name="fade">
         <el-aside id="aside" v-show="isShow">
-            这是一行字！
+          这是一行字！
         </el-aside>
       </transition>
 
       <el-container id="right">
         <el-main id="main">
-          <el-button @click="collapseStatus" id="btn-hide"
-                     :icon="isShow ? 'custom-icon el-icon-s-fold' : 'custom-icon el-icon-s-unfold'" circle
-                     :style="{left: isShow ? '305px' : '5px'}"></el-button>
+          <transition name="btn">
+            <el-button @click="collapseStatus" id="btn-hide"
+                       icon="custom-icon el-icon-s-fold" circle
+                       v-show="isShow"></el-button>
+          </transition>
+          <el-button @click="collapseStatus" id="btn-show"
+                     icon="custom-icon el-icon-s-unfold" circle
+                     v-show="!isShow"></el-button>
         </el-main>
         <el-footer id="footer">Footer</el-footer>
       </el-container>
@@ -47,13 +52,27 @@ export default {
 
 @keyframes show {
   0% {
-    opacity: 0;
     left: -300px;
   }
 
   100% {
     opacity: 1;
-    left: 0;
+  }
+}
+
+@keyframes btn_enter {
+  0% {
+    opacity: 0;
+    left: 5px;
+  }
+
+  1% {
+    opacity: 1;
+    left: 5px;
+  }
+
+  100% {
+    left: 305px;
   }
 }
 
@@ -63,6 +82,14 @@ export default {
 
 .fade-leave-active {
   animation: show 200ms reverse;
+}
+
+.btn-enter-active {
+  animation: btn_enter 200ms;
+}
+
+.btn-leave-active {
+  animation: btn_enter 200ms reverse;
 }
 
 #right {
@@ -78,12 +105,14 @@ export default {
   position: fixed;
   height: 100vh;
   box-shadow: 1px 0 0 0 gray;
+  z-index: 2;
 }
 
 #main {
   height: 200vh;
   padding: 0;
   margin: 0;
+  z-index: 0;
 }
 
 #footer {
@@ -99,5 +128,12 @@ export default {
   position: fixed;
   top: 5px;
   left: 305px;
+}
+
+#btn-show {
+  position: fixed;
+  top: 5px;
+  left: 5px;
+  z-index: 1;
 }
 </style>
