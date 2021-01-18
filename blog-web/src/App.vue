@@ -3,6 +3,7 @@
     <el-container direction="horizontal">
       <transition name="fade">
         <el-aside id="aside" v-show="isShow" width="220px">
+          <el-avatar size="80" src="https://avatars3.githubusercontent.com/u/46882838?s=460&u=2cc88f87bef2c222c8daeb4e944d1421b3119c8d&v=4"></el-avatar><br/>
           <el-button @click="this.$router.push({path: '/'})" class="menu" icon="el-icon-my-home">首页</el-button><br/>
           <el-button @click="this.$router.push({path: '/archives'})" class="menu" icon="el-icon-my-archive">归档</el-button><br/>
           <el-button @click="this.$router.push({path: '/categories'})" class="menu" icon="el-icon-my-category">分类</el-button><br/>
@@ -68,12 +69,12 @@ export default {
 @keyframes btn_enter {
   0% {
     opacity: 0;
-    left: 0;
+    left: 5px;
   }
 
   1% {
     opacity: 1;
-    left: 0;
+    left: 5px;
   }
 
   100% {
@@ -110,7 +111,7 @@ aside {
   top: 0;
   position: fixed;
   height: 100vh;
-  box-shadow: 5px 3px 12px #4A4A4A;
+  box-shadow: 5px 3px 10px #888888;
   z-index: 2;
 }
 
@@ -126,8 +127,10 @@ aside {
   margin: 0;
 }
 
-.custom-icon {
+#main .el-button {
   font-size: 18px;
+  padding: 6px;
+  margin: 0;
 }
 
 #btn-hide {
@@ -140,7 +143,7 @@ aside {
 #btn-show {
   position: fixed;
   top: 5px;
-  left: 0;
+  left: 5px;
   z-index: 1;
   box-shadow:0 0 7px #4A4A4A;
 }
@@ -151,6 +154,10 @@ aside {
   background: none;
   color: black;
   border: none;
+}
+
+.el-avatar {
+  margin: 20px;
 }
 
 </style>

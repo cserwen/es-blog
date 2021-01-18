@@ -1,8 +1,8 @@
 import {
-  ElAside,
+  ElAside, ElAvatar,
   ElButton, ElCard, ElCollapseTransition,
   ElContainer,
-  ElFooter,
+  ElFooter, ElInfiniteScroll,
   ElMain,
   ElMenu, ElMenuItem,
   ElRadioButton,
@@ -26,4 +26,6 @@ export default (app) => {
   app.use(ElMenuItem)
   app.use(ElCard)
   app.use(ElCollapseTransition)
+  app.use(ElAvatar)
+  app.use(ElInfiniteScroll)
 }
