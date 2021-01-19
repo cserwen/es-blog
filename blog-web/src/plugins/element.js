@@ -7,7 +7,7 @@ import {
   ElMenu, ElMenuItem,
   ElRadioButton,
   ElRadioGroup, ElRow,
-  ElSubmenu
+  ElSubmenu, ElTag
 } from 'element-plus'
 import lang from 'element-plus/lib/locale/lang/zh-cn'
 import locale from 'element-plus/lib/locale'
@@ -28,4 +28,5 @@ export default (app) => {
   app.use(ElCollapseTransition)
   app.use(ElAvatar)
   app.use(ElInfiniteScroll)
+  app.use(ElTag)
 }

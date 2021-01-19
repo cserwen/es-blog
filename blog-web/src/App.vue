@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <el-container direction="horizontal">
+    <el-container direction="vertical">
       <transition name="fade">
         <el-aside id="aside" v-show="isShow" width="220px">
-          <el-avatar size="80" src="https://avatars3.githubusercontent.com/u/46882838?s=460&u=2cc88f87bef2c222c8daeb4e944d1421b3119c8d&v=4"></el-avatar><br/>
+          <el-avatar>user</el-avatar><br/>
           <el-button @click="this.$router.push({path: '/'})" class="menu" icon="el-icon-my-home">首页</el-button><br/>
           <el-button @click="this.$router.push({path: '/archives'})" class="menu" icon="el-icon-my-archive">归档</el-button><br/>
           <el-button @click="this.$router.push({path: '/categories'})" class="menu" icon="el-icon-my-category">分类</el-button><br/>
@@ -12,20 +12,21 @@
         </el-aside>
       </transition>
 
-      <el-container id="right">
-        <el-main id="main">
-          <transition name="btn">
-            <el-button @click="collapseStatus" id="btn-hide"
-                       icon="custom-icon el-icon-s-fold" circle
-                       v-show="isShow"></el-button>
-          </transition>
-          <el-button @click="collapseStatus" id="btn-show"
-                     icon="custom-icon el-icon-s-unfold" circle
-                     v-show="!isShow"></el-button>
-          <router-view/>
-        </el-main>
-        <el-footer id="footer">Footer</el-footer>
-      </el-container>
+      <div id="button-show">
+        <transition name="btn">
+          <el-button @click="collapseStatus" id="btn-hide"
+                     icon="custom-icon el-icon-s-fold" circle
+                     v-show="isShow"></el-button>
+        </transition>
+        <el-button @click="collapseStatus" id="btn-show"
+                   icon="custom-icon el-icon-s-unfold" circle
+                   v-show="!isShow"></el-button>
+      </div>
+
+      <div id="view">
+        <router-view/>
+      </div>
+      <el-footer>footer</el-footer>
     </el-container>
   </div>
 </template>
@@ -53,7 +54,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  /*color: #2c3e50;*/
 }
 
 @keyframes show {
@@ -98,12 +98,6 @@ export default {
   animation: btn_enter 200ms reverse;
 }
 
-#right {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-}
-
 aside {
   background-color: #3C8CE7;
   background-image: linear-gradient(to bottom right, #C2FFD8, #465EFB);
@@ -113,13 +107,7 @@ aside {
   height: 100vh;
   box-shadow: 5px 3px 10px #888888;
   z-index: 2;
-}
-
-#main {
-  height: 200vh;
-  padding: 0;
-  margin: 0;
-  z-index: 0;
+  border-radius: 7px;
 }
 
 #footer {
@@ -127,7 +115,7 @@ aside {
   margin: 0;
 }
 
-#main .el-button {
+#button-show .el-button {
   font-size: 18px;
   padding: 6px;
   margin: 0;
@@ -149,15 +137,23 @@ aside {
 }
 
 #aside .el-button {
-  margin: 5px;
-  padding: 5px 20px;
+  margin: 3px;
+  padding: 10px;
   background: none;
-  color: black;
   border: none;
+  color: black;
+  width: 100px;
+  font-size: 15px;
+  border-radius: 8px;
+  transition: box-shadow 300ms;
 }
 
-.el-avatar {
-  margin: 20px;
+.menu:hover {
+  box-shadow: 5px 5px 20px #999999;
+}
+
+#view {
+  min-height: calc(100vh - 60px); /*减去footer的高度*/;
 }
 
 </style>

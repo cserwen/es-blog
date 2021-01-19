@@ -3,12 +3,12 @@
     <ul class="article-list" v-infinite-scroll="load" infinite-scroll-disabled="disabled">
       <li v-for="i in count" class="list-item">
         <div class="article-card">
-          <div style="padding: 14px;">
-            <span>好吃的汉堡</span>
-            <div class="bottom clearfix">
-              <el-button type="text" class="button">操作按钮</el-button>
-            </div>
-          </div>
+          <div id="title">npm全局安装失败解决办法</div>
+          <div id="time">2020.12.31</div>
+          <div id="description">本文介绍如何解决npm全局安装失败的问题</div>
+          <el-button icon="el-icon-position">开始阅读</el-button>
+          <hr id="line"/>
+          <el-button v-for="key in keys" class="article-key" size="mini">{{ key }}</el-button>
         </div>
       </li>
     </ul>
@@ -23,7 +23,11 @@ export default {
   data() {
     return {
       count: 10,
-      loading: false
+      loading: false,
+      keys: [
+          "Linux",
+          "npm"
+      ]
     }
   },
   computed: {
@@ -61,39 +65,47 @@ export default {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  width: 40%;
+  width: 45%;
   display: inline-block;
-}
-
-.el-card {
-
 }
 
 .article-card {
   margin: 30px;
-  height: 200px;
-  border-radius: 15px;
+  height: 250px;
+  border-radius: 10px;
   border-color: #969896;
   box-shadow:0 0 20px #ddd;
+  transition: box-shadow 300ms;
 }
 
 .article-card:hover {
-  animation: hover-card 0.2s;
-  transform: translate(0,-6px);
-  transition-delay: 0.2s;
-  box-shadow: 0 2px 20px #97CAFF;
+  box-shadow: 0 5px 25px #97CAFF;
 }
 
-@keyframes hover-card{
-  0% {
-    transform:translate(0,0);
-    box-shadow:0 0 20px #ddd
-  }
+#title {
+  font-size: 25px;
+  color: #333333;
+  padding-top: 20px;
+}
 
-  100% {
-    transform:translate(0,-6px);
-    box-shadow: 0 2px 20px #97CAFF;
-  }
+#time {
+  color: #bbbbbb;
+  padding-top: 15px;
+}
+
+#description {
+  color: #666666;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+#line {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  padding: 0;
+  background-color: #dddddd;
+  height: 1px;
+  border: 0;
 }
 
 </style>
