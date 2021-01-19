@@ -3,7 +3,7 @@
     <ul class="article-list" v-infinite-scroll="load" infinite-scroll-disabled="disabled">
       <li v-for="i in count" class="list-item">
         <div class="article-card">
-          <div id="title">npm全局安装失败解决办法</div>
+          <el-button type="text" id="title">npm全局安装失败解决办法</el-button>
           <div id="time">2020.12.31</div>
           <div id="description">本文介绍如何解决npm全局安装失败的问题</div>
           <el-button icon="el-icon-position">开始阅读</el-button>
@@ -83,14 +83,19 @@ export default {
 }
 
 #title {
-  font-size: 25px;
   color: #333333;
+  font-size: 25px;
+  transition:  color 300ms;
   padding-top: 20px;
+}
+
+#title:hover {
+  color: #3C8CE7;
 }
 
 #time {
   color: #bbbbbb;
-  padding-top: 15px;
+  padding-top: 10px;
 }
 
 #description {
@@ -101,7 +106,7 @@ export default {
 
 #line {
   margin-top: 15px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   padding: 0;
   background-color: #dddddd;
   height: 1px;
