@@ -11,8 +11,8 @@ import xyz.litterboys.esblog.service.ArticleService;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -60,5 +60,12 @@ public class ArticleServiceImpl implements ArticleService {
         HashMap<String, Boolean> res = new HashMap<>(1);
         res.put("result", articleDao.updateById(article) > 0);
         return res;
+    }
+
+    @Override
+    public List<Article> getArticleList() {
+        QueryWrapper<Article> articleQueryWrapper = new QueryWrapper<>();
+        articleQueryWrapper.eq("is_deleted", false);
+        return articleDao.selectList(articleQueryWrapper);
     }
 }

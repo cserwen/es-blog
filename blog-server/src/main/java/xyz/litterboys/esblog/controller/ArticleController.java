@@ -33,4 +33,9 @@ public class ArticleController {
         logger.info("delete article #articleId={}", articleId);
         return articleService.deleteArticleById(articleId);
     }
+
+    @GetMapping("list")
+    private Object getArticleList(){
+        return articleService.getArticleList();
+    }
 }
