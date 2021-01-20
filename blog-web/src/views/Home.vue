@@ -1,10 +1,10 @@
 <template>
   <div id="home">
     <ul class="article-list" v-infinite-scroll="load" infinite-scroll-disabled="disabled">
-      <li v-for="i in count" class="list-item">
+      <li v-for="article in articles" class="list-item">
         <div class="article-card">
-          <el-button type="text" id="title">npm全局安装失败解决办法</el-button>
-          <div id="time">2020.12.31</div>
+          <el-button type="text" id="title">{{ article.title }}</el-button>
+          <div id="time">{{ article.createTime }}</div>
           <div id="description">本文介绍如何解决npm全局安装失败的问题</div>
           <el-button icon="el-icon-position">开始阅读</el-button>
           <hr id="line"/>
@@ -24,10 +24,7 @@ export default {
     return {
       count: 10,
       loading: false,
-      keys: [
-          "Linux",
-          "npm"
-      ]
+      articles: []
     }
   },
   computed: {
@@ -45,7 +42,18 @@ export default {
         this.count += 2
         this.loading = false
       }, 2000)
+    },
+    getArticleList() {
+      this.axios.get('/article/list/', {}).then(res => {
+        this.articles = res.data.data;
+      }).catch(error => {
+        console.log(error);
+        alert('服务器异常');
+      })
     }
+  },
+  mounted() {
+    this.getArticleList();
   }
 }
 </script>
