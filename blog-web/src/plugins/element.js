@@ -2,9 +2,9 @@ import {
   ElAside, ElAvatar,
   ElButton, ElCard, ElCollapseTransition,
   ElContainer,
-  ElFooter, ElInfiniteScroll,
+  ElFooter, ElInfiniteScroll, ElLoading,
   ElMain,
-  ElMenu, ElMenuItem,
+  ElMenu, ElMenuItem, ElPagination,
   ElRadioButton,
   ElRadioGroup, ElRow,
   ElSubmenu, ElTag
@@ -29,4 +29,6 @@ export default (app) => {
   app.use(ElAvatar)
   app.use(ElInfiniteScroll)
   app.use(ElTag)
+  app.use(ElPagination)
+  app.use(ElLoading)
 }

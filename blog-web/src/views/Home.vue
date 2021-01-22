@@ -1,19 +1,20 @@
 <template>
   <div id="home">
-    <ul class="article-list" v-infinite-scroll="load" infinite-scroll-disabled="disabled">
+    <ul class="article-list" v-loading="loading">
       <li v-for="article in articles" class="list-item">
         <div class="article-card">
           <el-button type="text" id="title">{{ article.title }}</el-button>
-          <div id="time">{{ article.createTime }}</div>
-          <div id="description">本文介绍如何解决npm全局安装失败的问题</div>
+          <div id="time">{{ new Date(article.createTime).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'') }}</div>
+          <div id="description">{{ article.description }}</div>
           <el-button icon="el-icon-position">开始阅读</el-button>
           <hr id="line"/>
-          <el-button v-for="key in keys" class="article-key" size="mini">{{ key }}</el-button>
+          <el-button v-for="(tag, index) in article.tags" class="article-key"
+                     size="mini" :type="getButtonColor(index)" :icon="getButtonIcon(index)">{{ tag }}</el-button>
         </div>
       </li>
     </ul>
-    <p v-if="loading">加载中...</p>
-    <p v-if="noMore">没有更多了</p>
+    <el-pagination @current-change="getArticleList" background layout="prev, pager, next" :page-count="this.pages" >
+    </el-pagination>
   </div>
 </template>
 
@@ -22,38 +23,55 @@ export default {
   name: "Home",
   data() {
     return {
-      count: 10,
-      loading: false,
-      articles: []
-    }
-  },
-  computed: {
-    noMore() {
-      return this.count >= 20;
-    },
-    disabled() {
-      return this.loading || this.noMore
+      pages: -1,
+      articles: [],
+      loading: false
     }
   },
   methods: {
-    load () {
+    getArticleList(current) {
       this.loading = true
-      setTimeout(() => {
-        this.count += 2
+      this.axios.get('/article/list/', {
+        params: {
+          next: current,
+          size: 5
+        }
+      }).then(res => {
+        this.articles = res.data.data.articleCards;
+        this.pages = res.data.data.pages;
         this.loading = false
-      }, 2000)
-    },
-    getArticleList() {
-      this.axios.get('/article/list/', {}).then(res => {
-        this.articles = res.data.data;
       }).catch(error => {
         console.log(error);
         alert('服务器异常');
       })
+    },
+    getButtonColor(index){
+      switch (index){
+        case 0:
+          return 'primary'
+        case 1:
+          return 'success'
+        case 2:
+          return 'warning'
+        case 3:
+          return 'danger'
+      }
+    },
+    getButtonIcon(index){
+      switch (index){
+        case 0:
+          return 'el-icon-s-opportunity'
+        case 1:
+          return 'el-icon-s-flag'
+        case 2:
+          return 'el-icon-info'
+        case 3:
+          return 'el-icon-star-on'
+      }
     }
   },
-  mounted() {
-    this.getArticleList();
+  beforeMount() {
+    this.getArticleList(1);
   }
 }
 </script>
@@ -74,6 +92,7 @@ export default {
   margin: 0;
   padding: 0;
   width: 45%;
+  min-height: 91vh;
   display: inline-block;
 }
 
@@ -114,11 +133,15 @@ export default {
 
 #line {
   margin-top: 15px;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
   padding: 0;
   background-color: #dddddd;
   height: 1px;
   border: 0;
+}
+
+.article-key {
+  background-color: #3C8CE7;
 }
 
 </style>
