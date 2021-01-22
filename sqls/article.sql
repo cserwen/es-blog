@@ -12,6 +12,8 @@ create table if not exists article
 	read_times int default 0 not null comment '阅读次数',
 	viewer_nums int default 0 not null comment '浏览者的人数',
 	is_reward tinyint(1) default 1 not null comment '是否开启打赏',
-	category_id int default 0 not null comment '分类id'
+	category_id int default 0 not null comment '分类id',
+	description varchar(1024) default '' null
 )
 comment '博客文章表';
+

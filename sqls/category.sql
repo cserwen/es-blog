@@ -7,3 +7,4 @@ create table if not exists category
 	create_time datetime not null comment '创建时间'
 )
 comment '分类表';
+

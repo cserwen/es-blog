@@ -13,3 +13,4 @@ create table if not exists comment
 	is_deleted tinyint(1) default 0 not null comment '是否删除'
 )
 comment '评论表';
+
