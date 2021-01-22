@@ -12,6 +12,7 @@ public class Article {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private String title;
+    private String description;
     private String content;
     private Timestamp createTime;
     private Timestamp updateTime;
@@ -36,6 +37,14 @@ public class Article {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getContent() {
@@ -115,6 +124,7 @@ public class Article {
         return "Article{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
                 ", content='" + content + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +

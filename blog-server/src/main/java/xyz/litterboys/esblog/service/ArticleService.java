@@ -1,6 +1,8 @@
 package xyz.litterboys.esblog.service;
 
 import xyz.litterboys.esblog.model.Article;
+import xyz.litterboys.esblog.model.ArticleCard;
+import xyz.litterboys.esblog.model.view.ArticleListView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,5 +15,5 @@ public interface ArticleService {
 
     HashMap<String, Boolean> deleteArticleById(String articleId);
 
-    List<Article> getArticleList();
+    ArticleListView getArticleList(long next, long size);
 }

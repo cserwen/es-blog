@@ -5,6 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 import xyz.litterboys.esblog.model.Article;
 
 @Mapper
-public interface ArticleDao extends BaseMapper<Article> {
+public interface ArticleMapper extends BaseMapper<Article> {
 
 }

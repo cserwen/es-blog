@@ -3,7 +3,7 @@ package xyz.litterboys.esblog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import xyz.litterboys.esblog.dao.UserDao;
+import xyz.litterboys.esblog.dao.UserMapper;
 import xyz.litterboys.esblog.exception.ParamException;
 import xyz.litterboys.esblog.model.User;
 import xyz.litterboys.esblog.service.UserService;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class UserServiceImpl implements UserService {
 
     @Resource
-    private UserDao userDao;
+    private UserMapper userDao;
 
     @Override
     public HashMap<String, String> userLogin(User user) {

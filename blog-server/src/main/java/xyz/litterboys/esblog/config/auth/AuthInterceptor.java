@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import xyz.litterboys.esblog.dao.UserDao;
+import xyz.litterboys.esblog.dao.UserMapper;
 import xyz.litterboys.esblog.exception.NormalException;
 import xyz.litterboys.esblog.model.User;
 import xyz.litterboys.esblog.util.TokenUtils;
@@ -20,7 +20,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     private Logger logger = LoggerFactory.getLogger(AuthInterceptor.class);
 
     @Resource
-    private UserDao userDao;
+    private UserMapper userDao;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws NormalException {

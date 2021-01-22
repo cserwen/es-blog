@@ -11,7 +11,7 @@ public class Tag {
 
     @TableId(type = IdType.AUTO)
     private Integer id;
-    private String label;
+    private Integer articleId;
     private Timestamp createTime;
 
     public Integer getId() {
@@ -22,12 +22,12 @@ public class Tag {
         this.id = id;
     }
 
-    public String getLabel() {
-        return label;
+    public Integer getArticleId() {
+        return articleId;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setArticleId(Integer articleId) {
+        this.articleId = articleId;
     }
 
     public Timestamp getCreateTime() {
@@ -36,5 +36,14 @@ public class Tag {
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "id=" + id +
+                ", articleId=" + articleId +
+                ", createTime=" + createTime +
+                '}';
     }
 }

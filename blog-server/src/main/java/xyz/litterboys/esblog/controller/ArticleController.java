@@ -1,5 +1,6 @@
 package xyz.litterboys.esblog.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class ArticleController {
     }
 
     @GetMapping("list")
-    private Object getArticleList(){
-        return articleService.getArticleList();
+    private Object getArticleList(@RequestParam("next") long next, @RequestParam("size") long size){
+        return articleService.getArticleList(next, size);
     }
 }
