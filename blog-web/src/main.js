@@ -7,7 +7,7 @@ import axios from "axios";
 import VueAxios from "vue-axios";
 import './assets/icon/iconfont.css'
 
-axios.defaults.baseURL = 'api'
+axios.defaults.baseURL = '/api'
 
 const app = createApp(App)
 installElementPlus(app)

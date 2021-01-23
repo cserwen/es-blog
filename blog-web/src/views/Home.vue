@@ -3,7 +3,7 @@
     <ul class="article-list" v-loading="loading">
       <li v-for="article in articles" class="list-item">
         <div class="article-card">
-          <el-button type="text" id="title">{{ article.title }}</el-button>
+          <el-button type="text" id="title" @click="this.$router.push({name: 'Article', params: {id: article.id}})">{{ article.title }}</el-button>
           <div id="time">{{ new Date(article.createTime).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'') }}</div>
           <div id="description">{{ article.description }}</div>
           <el-button icon="el-icon-position">开始阅读</el-button>
@@ -13,7 +13,7 @@
         </div>
       </li>
     </ul>
-    <el-pagination @current-change="getArticleList" background layout="prev, pager, next" :page-count="this.pages" >
+    <el-pagination v-show="isShow" @current-change="getArticleList" background layout="prev, pager, next" :page-count="this.pages" >
     </el-pagination>
   </div>
 </template>
@@ -25,7 +25,8 @@ export default {
     return {
       pages: -1,
       articles: [],
-      loading: false
+      loading: false,
+      isShow: true
     }
   },
   methods: {
@@ -43,6 +44,8 @@ export default {
       }).catch(error => {
         console.log(error);
         alert('服务器异常');
+        this.loading = false
+        this.isShow = false
       })
     },
     getButtonColor(index){

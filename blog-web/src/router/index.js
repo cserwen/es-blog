@@ -4,6 +4,7 @@ import Archive from "@/views/Archive";
 import Category from "@/views/Category";
 import About from "@/views/About";
 import Link from "@/views/Link";
+import Article from "@/views/Article";
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: "/links",
     name: "Link",
     component: Link
+  },
+  {
+    path: "/article/:id",
+    name: "Article",
+    component: Article
   }
 
 ]
