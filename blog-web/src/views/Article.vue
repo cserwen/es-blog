@@ -1,13 +1,21 @@
-<template>
-  {{  }}
+<template >
+  <div style="min-height: 100vh" v-loading="loading">
+    {{ article.title }}
+    <div v-html="blog" id="blog"></div>
+    <p></p>
+  </div>
 </template>
 
 <script>
+import marked from 'marked'
+
 export default {
   name: "Article",
   data() {
     return {
-      article: {}
+      article: {},
+      loading: false,
+      blog: ""
     }
   },
   methods: {
@@ -21,6 +29,7 @@ export default {
       }).then(res => {
         if (res.data.code === 0){
           this.article = res.data.data
+          this.blog = marked(this.article.content)
         }else {
           alert(res.data.data)
         }
@@ -30,14 +39,20 @@ export default {
         alert('服务器异常');
         this.loading = false
       })
+    },
+    hideAside() {
+      this.$emit("handleHide")
     }
   },
   mounted() {
-    this.getArticleDetails()
+    this.hideAside()
+    setTimeout(this.getArticleDetails, 200);
   }
 }
 </script>
 
 <style scoped>
-
+#blog {
+  text-align: left;
+}
 </style>

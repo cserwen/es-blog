@@ -24,7 +24,7 @@
       </div>
 
       <div id="view">
-        <router-view/>
+        <router-view v-on:handleHide="hideAside"/>
       </div>
       <el-footer>footer</el-footer>
     </el-container>
@@ -43,6 +43,9 @@ export default {
   methods: {
     collapseStatus() {
       this.isShow = !this.isShow
+    },
+    hideAside() {
+      this.isShow = false
     }
   }
 }
