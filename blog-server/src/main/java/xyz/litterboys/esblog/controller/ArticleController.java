@@ -18,9 +18,9 @@ public class ArticleController {
     @Resource
     private ArticleService articleService;
 
-    @GetMapping("{articleId}")
-    public void getArticle(@PathVariable String articleId) {
-
+    @GetMapping("getArticleById")
+    public Object getArticle(@RequestParam("id") Integer id) {
+        return articleService.getArticleById(id);
     }
 
     @PostMapping("create")

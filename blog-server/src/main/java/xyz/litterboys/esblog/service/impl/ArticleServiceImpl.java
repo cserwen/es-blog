@@ -12,7 +12,6 @@ import xyz.litterboys.esblog.exception.NormalException;
 import xyz.litterboys.esblog.exception.ParamException;
 import xyz.litterboys.esblog.model.Article;
 import xyz.litterboys.esblog.model.ArticleCard;
-import xyz.litterboys.esblog.model.Tag;
 import xyz.litterboys.esblog.model.view.ArticleListView;
 import xyz.litterboys.esblog.service.ArticleService;
 
@@ -54,8 +53,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Article getArticleById() {
-        return new Article();
+    public Article getArticleById(int id) {
+        Article article = articleMapper.selectById(id);
+        if (article == null || article.getDeleted() || !article.getOpen()){
+            throw new NormalException("文章不存在");
+        }
+        return article;
     }
 
     @Override

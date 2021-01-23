@@ -11,7 +11,7 @@ public interface ArticleService {
 
     HashMap<String, Integer> createTopic(Article article);
 
-    Article getArticleById();
+    Article getArticleById(int id);
 
     HashMap<String, Boolean> deleteArticleById(String articleId);
 
