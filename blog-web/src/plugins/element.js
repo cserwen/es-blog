@@ -2,12 +2,12 @@ import {
   ElAside, ElAvatar,
   ElButton, ElCard, ElCollapseTransition,
   ElContainer,
-  ElFooter, ElInfiniteScroll, ElLoading,
+  ElFooter, ElInfiniteScroll, ElLink, ElLoading,
   ElMain,
-  ElMenu, ElMenuItem, ElPagination,
+  ElMenu, ElMenuItem, ElMessage, ElPagination,
   ElRadioButton,
   ElRadioGroup, ElRow,
-  ElSubmenu, ElTag
+  ElSubmenu, ElTag, ElTree
 } from 'element-plus'
 import lang from 'element-plus/lib/locale/lang/zh-cn'
 import locale from 'element-plus/lib/locale'
@@ -31,4 +31,7 @@ export default (app) => {
   app.use(ElTag)
   app.use(ElPagination)
   app.use(ElLoading)
+  app.use(ElLink)
+  app.use(ElMessage)
+  app.use(ElTree)
 }

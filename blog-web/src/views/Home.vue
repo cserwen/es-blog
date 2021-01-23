@@ -6,7 +6,7 @@
           <el-button type="text" id="title" @click="this.$router.push({name: 'Article', params: {id: article.id}})">{{ article.title }}</el-button>
           <div id="time">{{ new Date(article.createTime).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'') }}</div>
           <div id="description">{{ article.description }}</div>
-          <el-button icon="el-icon-position">开始阅读</el-button>
+          <el-button icon="el-icon-position" @click="this.$router.push({name: 'Article', params: {id: article.id}})">开始阅读</el-button>
           <hr id="line"/>
           <el-button v-for="(tag, index) in article.tags" class="article-key"
                      size="mini" :type="getButtonColor(index)" :icon="getButtonIcon(index)">{{ tag }}</el-button>
@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import {ElMessage} from "element-plus";
+
 export default {
   name: "Home",
   data() {
@@ -38,12 +40,22 @@ export default {
           size: 5
         }
       }).then(res => {
-        this.articles = res.data.data.articleCards;
-        this.pages = res.data.data.pages;
-        this.loading = false
+        if (res.data.code === 0){
+          this.articles = res.data.data.articleCards;
+          this.pages = res.data.data.pages;
+          this.loading = false
+        }else {
+          ElMessage.warning({
+            showClose: true,
+            message: res.data.data
+          })
+        }
       }).catch(error => {
         console.log(error);
-        alert('服务器异常');
+        ElMessage.error({
+          showClose: true,
+          message: "服务器异常"
+        })
         this.loading = false
         this.isShow = false
       })
@@ -84,17 +96,16 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  width: 100%;
   height: 100%;
   text-align: center;
-
+  margin-bottom: 30px;
 }
 
 .article-list{
   list-style-type: none;
   margin: 0;
   padding: 0;
-  width: 45%;
+  width: 46%;
   min-height: 91vh;
   display: inline-block;
 }

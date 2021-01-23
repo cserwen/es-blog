@@ -3,7 +3,7 @@
     <el-container direction="vertical">
       <transition name="fade">
         <el-aside id="aside" v-show="isShow" width="220px">
-          <el-avatar>user</el-avatar><br/>
+          <img id="avatar" src="https://portrait.gitee.com/uploads/avatars/user/1886/5660923_litterboys_1597989320.png!avatar200"/><br/>
           <el-button @click="this.$router.push({path: '/'})" class="menu" icon="el-icon-my-home">首页</el-button><br/>
           <el-button @click="this.$router.push({path: '/archives'})" class="menu" icon="el-icon-my-archive">归档</el-button><br/>
           <el-button @click="this.$router.push({path: '/categories'})" class="menu" icon="el-icon-my-category">分类</el-button><br/>
@@ -26,7 +26,10 @@
       <div id="view">
         <router-view v-on:handleHide="hideAside"/>
       </div>
-      <el-footer>footer</el-footer>
+      <el-footer id="footer">
+        <el-link type="info" class="foot-info">{{ this.copyRight }}</el-link>
+        <el-link href="http://www.beian.miit.gov.cn/" type="info" class="foot-info">冀ICP备20003509号</el-link>
+      </el-footer>
     </el-container>
   </div>
 </template>
@@ -37,7 +40,8 @@ export default {
   name: 'App',
   data() {
     return {
-      isShow: true
+      isShow: true,
+      copyRight: ''
     }
   },
   methods: {
@@ -47,6 +51,10 @@ export default {
     hideAside() {
       this.isShow = false
     }
+  },
+  mounted() {
+    let year = new Date().getFullYear();
+    this.copyRight = 'Copyrights © 2019-' + year + ' litterboys'
   }
 }
 </script>
@@ -113,11 +121,6 @@ aside {
   border-radius: 7px;
 }
 
-#footer {
-  padding: 0;
-  margin: 0;
-}
-
 #button-show .el-button {
   font-size: 18px;
   padding: 6px;
@@ -159,4 +162,15 @@ aside {
   min-height: calc(100vh - 60px); /*减去footer的高度*/;
 }
 
+#avatar {
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  margin-top: 20px;
+  margin-left: 10px;
+}
+
+.foot-info {
+  margin: 0 5px;
+}
 </style>
