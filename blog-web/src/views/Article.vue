@@ -4,14 +4,14 @@
       <div id="article-title">{{ article.title }}</div>
       <div v-html="blog" id="article-content" class="markdown-body"></div>
       <div style="display: flex; margin-top: 20px">
-        <div id="last" style="text-align: left; width: 50%">
-          <el-button type="text" icon="el-icon-d-arrow-left" @click="getLastArticle">
-            {{ article.hasLast ? article.lastName : '已经是第一篇啦~' }}
+        <div style="text-align: left; width: 50%">
+          <el-button type="text" icon="el-icon-d-arrow-left" @click="getNextArticle">
+            {{ article.hasNext ? article.nextName : '已经是最后一篇了~' }}
           </el-button>
         </div>
-        <div id="next" style="text-align: right; width: 50%">
-          <el-button type="text" @click="getNextArticle">
-            {{ article.hasNext ? article.nextName : '已经是最后一篇了~' }}<i class="el-icon-d-arrow-right el-icon--right" ></i>
+        <div style="text-align: right; width: 50%">
+          <el-button type="text" @click="getLastArticle">
+            {{ article.hasLast ? article.lastName : '已经是第一篇啦~' }}<i class="el-icon-d-arrow-right el-icon--right" ></i>
           </el-button>
         </div>
       </div>
@@ -123,6 +123,12 @@ export default {
     },
     getLastArticle() {
       if (this.article.hasLast){
+        this.tocData = {
+            children: []
+        }
+        this.index = 0
+        this.isShow = false
+        this.tocShow = false
         window.scrollTo(0,0);
         this.$router.push({name: 'Article', params: {id: this.article.lastId}})
         this.hideAside()
@@ -131,6 +137,12 @@ export default {
     },
     getNextArticle() {
       if (this.article.hasNext) {
+        this.tocData = {
+          children: []
+        }
+        this.index = 0
+        this.isShow = false
+        this.tocShow = false
         window.scrollTo(0,0);
         this.$router.push({name: 'Article', params: {id: this.article.nextId}})
         this.hideAside()
