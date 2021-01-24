@@ -13,6 +13,7 @@ import xyz.litterboys.esblog.exception.ParamException;
 import xyz.litterboys.esblog.model.Article;
 import xyz.litterboys.esblog.model.ArticleCard;
 import xyz.litterboys.esblog.model.view.ArticleListView;
+import xyz.litterboys.esblog.model.view.ArticleView;
 import xyz.litterboys.esblog.service.ArticleService;
 
 import javax.annotation.Resource;
@@ -20,6 +21,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -53,12 +56,37 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Article getArticleById(int id) {
+    public ArticleView getArticleById(int id) {
         Article article = articleMapper.selectById(id);
         if (article == null || article.getDeleted() || !article.getOpen()){
             throw new NormalException("文章不存在");
         }
-        return article;
+
+        QueryWrapper<Article> lastWrapper = new QueryWrapper<>();
+        lastWrapper.lt("id", id).eq("is_deleted", false).eq("is_open", true).orderByDesc("id")
+                .last("limit 1");
+        Article last = articleMapper.selectOne(lastWrapper);
+
+        QueryWrapper<Article> nextWrapper = new QueryWrapper<>();
+        nextWrapper.gt("id", id).eq("is_deleted", false).eq("is_open", true).orderByAsc("id")
+                .last("limit 1");
+        Article next = articleMapper.selectOne(nextWrapper);
+
+        ArticleView articleView = new ArticleView();
+        BeanUtils.copyProperties(article, articleView);
+
+        if (last != null) {
+            articleView.setHasLast(true);
+            articleView.setLastId(last.getId());
+            articleView.setLastName(last.getTitle());
+        }
+
+        if (next != null) {
+            articleView.setHasNext(true);
+            articleView.setNextId(next.getId());
+            articleView.setNextName(next.getTitle());
+        }
+        return articleView;
     }
 
     @Override
