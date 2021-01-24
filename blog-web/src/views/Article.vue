@@ -3,6 +3,18 @@
     <div id="article-card" v-show="isShow" name="fade">
       <div id="article-title">{{ article.title }}</div>
       <div v-html="blog" id="article-content" class="markdown-body"></div>
+      <div style="display: flex; margin-top: 20px">
+        <div id="last" style="text-align: left; width: 50%">
+          <el-button type="text" icon="el-icon-d-arrow-left" @click="getLastArticle">
+            {{ article.hasLast ? article.lastName : '已经是第一篇啦~' }}
+          </el-button>
+        </div>
+        <div id="next" style="text-align: right; width: 50%">
+          <el-button type="text" @click="getNextArticle">
+            {{ article.hasNext ? article.nextName : '已经是最后一篇了~' }}<i class="el-icon-d-arrow-right el-icon--right" ></i>
+          </el-button>
+        </div>
+      </div>
     </div>
     <transition name="el-zoom-in-top">
       <el-tree v-show="tocShow" :data="tocData.children" :props="defaultProps" @node-click="handleNodeClick" id="article-toc">
@@ -14,6 +26,8 @@
 <script>
 import marked from 'marked'
 import {ElMessage} from "element-plus";
+import hljs from "highlight.js"
+import 'highlight.js/styles/atom-one-dark.css';
 
 export default {
   name: "Article",
@@ -41,7 +55,15 @@ export default {
       }).then(res => {
         if (res.data.code === 0){
           this.article = res.data.data
-          this.blog = marked(this.article.content)
+          this.blog = marked(this.article.content, {
+            breaks: true,
+            gfm: true,
+            tables: true,
+            smartLists: true,
+            highlight: function(code) {
+              return hljs.highlightAuto(code).value;
+            }
+          }).replace(/<pre>/g, "<pre class='hljs'>")
           this.isShow = true
           setTimeout(this.findHeadTag, 1);
         }else {
@@ -52,7 +74,6 @@ export default {
         }
         this.loading = false
       }).catch(error => {
-        console.log(error);
         ElMessage.error({
           showClose: true,
           message: "服务器异常"
@@ -68,7 +89,6 @@ export default {
     },
     findHeadTag(){
       let h = document.querySelectorAll("h1, h2, h3, h4, h5, h6")
-      console.log(h);
       if (h.length === 0){
         return
       }
@@ -93,7 +113,6 @@ export default {
           children: []
         }
         if (currentLevel === level ){
-          console.log(local)
           local.children.push(toc)
         } else if (currentLevel < level ) {
           this.buildToc(nodes,currentLevel+1, baseLevel)
@@ -101,13 +120,29 @@ export default {
           this.buildToc(nodes, currentLevel-1, baseLevel)
         }
       }
+    },
+    getLastArticle() {
+      if (this.article.hasLast){
+        window.scrollTo(0,0);
+        this.$router.push({name: 'Article', params: {id: this.article.lastId}})
+        this.hideAside()
+        setTimeout(this.getArticleDetails, 200)
+      }
+    },
+    getNextArticle() {
+      if (this.article.hasNext) {
+        window.scrollTo(0,0);
+        this.$router.push({name: 'Article', params: {id: this.article.nextId}})
+        this.hideAside()
+        setTimeout(this.getArticleDetails, 200)
+      }
     }
 
   },
   created() {
     this.hideAside()
-    setTimeout(this.getArticleDetails, 200);
-  }
+    setTimeout(this.getArticleDetails, 200)
+  },
 }
 </script>
 
@@ -127,7 +162,6 @@ export default {
   padding: 20px;
   border-radius: 15px;
   border: 1px;
-  min-height:78vh;
   animation: show-article 500ms;
 }
 
@@ -139,6 +173,7 @@ export default {
 
 #article-content {
   text-align: left;
+  min-height: 60vh;
 }
 
 @keyframes show-article {

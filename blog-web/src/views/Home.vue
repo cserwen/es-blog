@@ -33,6 +33,7 @@ export default {
   },
   methods: {
     getArticleList(current) {
+      window.scrollTo(0,0);
       this.loading = true
       this.axios.get('/article/list/', {
         params: {

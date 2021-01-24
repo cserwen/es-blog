@@ -4,11 +4,11 @@
       <transition name="fade">
         <el-aside id="aside" v-show="isShow" width="220px">
           <img id="avatar" src="https://portrait.gitee.com/uploads/avatars/user/1886/5660923_litterboys_1597989320.png!avatar200"/><br/>
-          <el-button @click="this.$router.push({path: '/'})" class="menu" icon="el-icon-my-home">首页</el-button><br/>
-          <el-button @click="this.$router.push({path: '/archives'})" class="menu" icon="el-icon-my-archive">归档</el-button><br/>
-          <el-button @click="this.$router.push({path: '/categories'})" class="menu" icon="el-icon-my-category">分类</el-button><br/>
-          <el-button @click="this.$router.push({path: '/about'})" class="menu" icon="el-icon-my-about">关于</el-button><br/>
-          <el-button @click="this.$router.push({path: '/links'})" class="menu" icon="el-icon-my-link">友链</el-button><br/>
+          <el-button @click="changeView('/')" class="menu" icon="el-icon-my-home">首页</el-button><br/>
+          <el-button @click="changeView('/archives')" class="menu" icon="el-icon-my-archive">归档</el-button><br/>
+          <el-button @click="changeView('/categories')" class="menu" icon="el-icon-my-category">分类</el-button><br/>
+          <el-button @click="changeView('/about')" class="menu" icon="el-icon-my-about">关于</el-button><br/>
+          <el-button @click="changeView('/about')" class="menu" icon="el-icon-my-link">友链</el-button><br/>
         </el-aside>
       </transition>
 
@@ -50,6 +50,10 @@ export default {
     },
     hideAside() {
       this.isShow = false
+    },
+    changeView(path) {
+      this.$router.push({path: path})
+      window.scrollTo(0,0);
     }
   },
   mounted() {
