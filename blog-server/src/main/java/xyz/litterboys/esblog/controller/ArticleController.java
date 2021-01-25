@@ -1,6 +1,5 @@
 package xyz.litterboys.esblog.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;

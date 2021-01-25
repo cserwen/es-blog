@@ -21,8 +21,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -123,7 +121,6 @@ public class ArticleServiceImpl implements ArticleService {
         articleListView.setPages(articleIPage.getPages());
         articleListView.setArticleCards(articleCards);
         articleListView.setCurrent(articleIPage.getCurrent());
-        System.out.println(articleListView);
         return articleListView;
     }
 }
