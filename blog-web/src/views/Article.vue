@@ -46,7 +46,6 @@ export default {
   },
   methods: {
     getArticleDetails() {
-      console.log(this.$route.params.id)
       this.loading = true
       this.axios.get('/article/getArticleById', {
         params: {

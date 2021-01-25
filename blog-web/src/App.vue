@@ -27,8 +27,8 @@
         <router-view v-on:handleHide="hideAside"/>
       </div>
       <el-footer id="footer">
-        <el-link type="info" class="foot-info">{{ this.copyRight }}</el-link>
-        <el-link href="http://www.beian.miit.gov.cn/" type="info" class="foot-info">冀ICP备20003509号</el-link>
+        <el-link type="info" class="foot-info" :underline="false">{{ this.copyRight }}</el-link>
+        <el-link href="https://beian.miit.gov.cn/" type="info" class="foot-info" :underline="false">冀ICP备20003509号</el-link>
       </el-footer>
     </el-container>
   </div>
@@ -136,6 +136,7 @@ aside {
   top: 5px;
   left: 230px;
   box-shadow:0 0 7px #4A4A4A;
+  z-index: 999;
 }
 
 #btn-show {

@@ -9,11 +9,11 @@
           <el-button icon="el-icon-position" @click="this.$router.push({name: 'Article', params: {id: article.id}})">开始阅读</el-button>
           <hr id="line"/>
           <el-button v-for="(tag, index) in article.tags" class="article-key"
-                     size="mini" :type="getButtonColor(index)" :icon="getButtonIcon(index)">{{ tag }}</el-button>
+                     size="mini" :type="buttonColor[index]" :icon="buttonIcon[index]">{{ tag }}</el-button>
         </div>
       </li>
     </ul>
-    <el-pagination v-show="isShow" @current-change="getArticleList" background layout="prev, pager, next" :page-count="this.pages" >
+    <el-pagination v-show="isShow" @current-change="getArticleList" background layout="prev, pager, next" :page-count="pages" >
     </el-pagination>
   </div>
 </template>
@@ -28,7 +28,13 @@ export default {
       pages: -1,
       articles: [],
       loading: false,
-      isShow: true
+      isShow: false,
+      buttonColor: [
+          'primary', 'success', 'warning', 'danger'
+      ],
+      buttonIcon: [
+          'el-icon-s-opportunity', 'el-icon-s-flag', 'el-icon-info', 'el-icon-star-on'
+      ]
     }
   },
   methods: {
@@ -45,6 +51,7 @@ export default {
           this.articles = res.data.data.articleCards;
           this.pages = res.data.data.pages;
           this.loading = false
+          this.isShow = true
         }else {
           ElMessage.warning({
             showClose: true,
@@ -61,32 +68,8 @@ export default {
         this.isShow = false
       })
     },
-    getButtonColor(index){
-      switch (index){
-        case 0:
-          return 'primary'
-        case 1:
-          return 'success'
-        case 2:
-          return 'warning'
-        case 3:
-          return 'danger'
-      }
-    },
-    getButtonIcon(index){
-      switch (index){
-        case 0:
-          return 'el-icon-s-opportunity'
-        case 1:
-          return 'el-icon-s-flag'
-        case 2:
-          return 'el-icon-info'
-        case 3:
-          return 'el-icon-star-on'
-      }
-    }
   },
-  beforeMount() {
+  mounted() {
     this.getArticleList(1);
   }
 }
