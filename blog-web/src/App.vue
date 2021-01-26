@@ -119,7 +119,7 @@ aside {
   left: 0;
   top: 0;
   position: fixed;
-  height: 100vh;
+  height: 100%;
   box-shadow: 5px 3px 10px #888888;
   z-index: 2;
   border-radius: 7px;
@@ -164,6 +164,7 @@ aside {
 }
 
 #view {
+  width: 100%;
   min-height: calc(100vh - 60px); /*减去footer的高度*/;
 }
 

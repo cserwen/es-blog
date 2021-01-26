@@ -1,13 +1,22 @@
 <template>
   <div id="home">
-    <ul class="article-list" v-loading="loading">
-      <li v-for="article in articles" class="list-item">
-        <div class="article-card">
+    <ul :class="isPhone ? 'p_article-list' : 'article-list'" v-loading="loading">
+      <li v-for="article in articles" :class="isPhone ? 'p_list-item' : 'list-item'">
+        <div class="article-card" v-show="!isPhone">
           <el-button type="text" id="title" @click="this.$router.push({name: 'Article', params: {id: article.id}})">{{ article.title }}</el-button>
           <div id="time">{{ new Date(article.createTime).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'') }}</div>
           <div id="description">{{ article.description }}</div>
           <el-button icon="el-icon-position" @click="this.$router.push({name: 'Article', params: {id: article.id}})">开始阅读</el-button>
           <hr id="line"/>
+          <el-button v-for="(tag, index) in article.tags" class="article-key"
+                     size="mini" :type="buttonColor[index]" :icon="buttonIcon[index]">{{ tag }}</el-button>
+        </div>
+        <div class="p_article-card" v-show="isPhone">
+          <el-button type="text" id="p_title" @click="this.$router.push({name: 'Article', params: {id: article.id}})">{{ article.title }}</el-button>
+          <div id="p_time">{{ new Date(article.createTime).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'') }}</div>
+          <div id="p_description">{{ article.description }}</div>
+          <el-button icon="el-icon-position" @click="this.$router.push({name: 'Article', params: {id: article.id}})">开始阅读</el-button>
+          <hr id="p_line"/>
           <el-button v-for="(tag, index) in article.tags" class="article-key"
                      size="mini" :type="buttonColor[index]" :icon="buttonIcon[index]">{{ tag }}</el-button>
         </div>
@@ -34,7 +43,8 @@ export default {
       ],
       buttonIcon: [
           'el-icon-s-opportunity', 'el-icon-s-flag', 'el-icon-info', 'el-icon-star-on'
-      ]
+      ],
+      isPhone: false
     }
   },
   methods: {
@@ -71,6 +81,11 @@ export default {
   },
   mounted() {
     this.getArticleList(1);
+    this.isPhone = document.documentElement.clientWidth < 1000;
+    console.log(this.isPhone)
+    if (this.isPhone) {
+      this.isShow = false
+    }
   }
 }
 </script>
@@ -94,6 +109,16 @@ export default {
   display: inline-block;
 }
 
+.p_article-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 91vh;
+  display: inline-block;
+}
+
+
 .article-card {
   margin: 30px;
   height: 250px;
@@ -103,13 +128,35 @@ export default {
   transition: box-shadow 300ms;
 }
 
+.p_article-card {
+  margin: 30px;
+  height: 200px;
+  border-radius: 10px;
+  border-color: #969896;
+  box-shadow:0 0 20px #ddd;
+  transition: box-shadow 300ms;
+}
+
+.p_article-card:hover {
+  box-shadow: 0 5px 25px #97CAFF;
+}
+
+
 .article-card:hover {
   box-shadow: 0 5px 25px #97CAFF;
 }
 
 #title {
+  max-width: 400px;
   color: #333333;
   font-size: 25px;
+  transition:  color 300ms;
+  padding-top: 20px;
+}
+
+#p_title {
+  color: #333333;
+  font-size: 15px;
   transition:  color 300ms;
   padding-top: 20px;
 }
@@ -123,23 +170,40 @@ export default {
   padding-top: 10px;
 }
 
+#p_time {
+  color: #bbbbbb;
+}
+
 #description {
   color: #666666;
   padding-top: 15px;
   padding-bottom: 15px;
 }
 
+#p_description {
+  color: #666666;
+  font-size: 12px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+
 #line {
   margin-top: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   padding: 0;
   background-color: #dddddd;
   height: 1px;
   border: 0;
 }
 
-.article-key {
-  background-color: #3C8CE7;
+#p_line {
+  padding: 0;
+  background-color: #dddddd;
+  height: 1px;
+  border: 0;
 }
+
+
 
 </style>
