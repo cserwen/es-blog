@@ -1,17 +1,21 @@
 <template>
   <div id="article" v-loading="loading">
-    <div id="article-card" v-show="isShow" name="fade">
+    <div :id="isPhone ? 'p_article-card' : 'article-card'" v-show="isShow" name="fade">
       <div id="article-title">{{ article.title }}</div>
       <div v-html="blog" id="article-content" class="markdown-body"></div>
       <div style="display: flex; margin-top: 20px">
         <div style="text-align: left; width: 50%">
-          <el-button type="text" icon="el-icon-d-arrow-left" @click="getNextArticle">
+          <el-button v-show="isPhone" type="text" icon="el-icon-d-arrow-left" @click="getNextArticle">
+            {{ article.hasNext ? '下一篇' : '后面没有了' }}
+          </el-button>
+          <el-button v-show="!isPhone" type="text" icon="el-icon-d-arrow-left" @click="getNextArticle">
             {{ article.hasNext ? article.nextName : '已经是最后一篇了~' }}
           </el-button>
         </div>
         <div style="text-align: right; width: 50%">
           <el-button type="text" @click="getLastArticle">
-            {{ article.hasLast ? article.lastName : '已经是第一篇啦~' }}<i class="el-icon-d-arrow-right el-icon--right" ></i>
+            <div v-show="isPhone">{{ article.hasLast ? "上一篇" : '前面没有了' }}<i class="el-icon-d-arrow-right el-icon--right" ></i></div>
+            <div v-show="!isPhone">{{ article.hasLast ? article.lastName : '已经是第一篇啦~' }}<i class="el-icon-d-arrow-right el-icon--right" ></i></div>
           </el-button>
         </div>
       </div>
@@ -39,6 +43,7 @@ export default {
       isShow: false,
       index: 0,
       tocShow: false,
+      isPhone: false,
       tocData: {
         children: []
       }
@@ -87,6 +92,9 @@ export default {
       window.location.href = '#' + node.label
     },
     findHeadTag(){
+      if (this.isPhone){
+        return;
+      }
       let h = document.querySelectorAll("h1, h2, h3, h4, h5, h6")
       if (h.length === 0){
         return
@@ -123,7 +131,7 @@ export default {
     getLastArticle() {
       if (this.article.hasLast){
         this.tocData = {
-            children: []
+          children: []
         }
         this.index = 0
         this.isShow = false
@@ -151,6 +159,8 @@ export default {
 
   },
   created() {
+    this.isPhone = document.documentElement.clientWidth < 1200;
+    console.log(this.isPhone)
     this.hideAside()
     setTimeout(this.getArticleDetails, 200)
   },
@@ -176,10 +186,19 @@ export default {
   animation: show-article 500ms;
 }
 
+#p_article-card {
+  margin: 40px 10px;
+  box-shadow:0 0 50px #cccccc;
+  padding: 10px;
+  border-radius: 15px;
+  border: 1px;
+  animation: show-article 500ms;
+}
+
 #article-title {
   font-size: 34px;
   font-weight: 700;
-  padding: 40px;
+  padding: 40px 0;
 }
 
 #article-content {

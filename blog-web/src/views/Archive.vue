@@ -1,11 +1,12 @@
 <template>
-  <div id="archive" v-loading="loading">
+  <div :id="isPhone ? 'p_archive' : 'archive'" v-loading="loading">
     <el-timeline>
       <el-timeline-item v-for="archive in archives"
                         :timestamp="new Date(archive.createTime).toISOString().replace(/T/g,' ')
                         .replace(/\.[\d]{3}Z/,'') " placement="top" >
-        <el-card>
-          <el-button id="title" @click="$router.push({name: 'Article', params: {id: archive.id}})" type="text">{{ archive.title }}</el-button>
+        <el-card >
+          <el-button v-show="!isPhone" id="title" @click="$router.push({name: 'Article', params: {id: archive.id}})" type="text">{{ archive.title }}</el-button>
+          <div v-show="isPhone" id="p_title" @click="$router.push({name: 'Article', params: {id: archive.id}})" type="text">{{ archive.title }}</div>
           <p id="description">{{ archive.description }}</p>
         </el-card>
       </el-timeline-item>
@@ -26,7 +27,8 @@ export default {
       pages: 0,
       archives: [],
       loading: false,
-      isShow: false
+      isShow: false,
+      isPhone: false
     }
   },
   methods: {
@@ -64,6 +66,7 @@ export default {
     }
   },
   created() {
+    this.isPhone = document.documentElement.clientWidth < 1200;
     this.getArchiveList(1)
   }
 }
@@ -76,6 +79,15 @@ export default {
   min-height: 80vh;
 }
 
+#p_archive {
+  text-align: left;
+  padding-right: 40px;
+  padding-top: 50px;
+  padding-bottom: 10px;
+  min-height: 100vh;
+}
+
+
 #page {
   margin-bottom: 20px;
 }
@@ -85,6 +97,13 @@ export default {
   font-size: 18px;
   padding-top: 5px;
   padding-bottom: 20px;
+}
+
+#p_title {
+  color: #666666;
+  font-size: 15px;
+  padding-top: 0;
+  padding-bottom: 15px;
 }
 
 #description {

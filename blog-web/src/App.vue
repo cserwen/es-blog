@@ -41,6 +41,7 @@ export default {
   data() {
     return {
       isShow: true,
+      isPhone: false,
       copyRight: ''
     }
   },
@@ -52,6 +53,9 @@ export default {
       this.isShow = false
     },
     changeView(path) {
+      if (this.isPhone){
+        this.isShow = false
+      }
       this.$router.push({path: path})
       window.scrollTo(0,0);
     }
@@ -59,6 +63,12 @@ export default {
   mounted() {
     let year = new Date().getFullYear();
     this.copyRight = 'Copyrights © 2019-' + year + ' litterboys'
+
+    this.isPhone = document.documentElement.clientWidth < 1200;
+    console.log(this.isPhone)
+    if (this.isPhone) {
+      this.isShow = false
+    }
   }
 }
 </script>

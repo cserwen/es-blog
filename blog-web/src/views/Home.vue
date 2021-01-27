@@ -15,7 +15,7 @@
           <el-button type="text" id="p_title" @click="this.$router.push({name: 'Article', params: {id: article.id}})">{{ article.title }}</el-button>
           <div id="p_time">{{ new Date(article.createTime).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'') }}</div>
           <div id="p_description">{{ article.description }}</div>
-          <el-button icon="el-icon-position" @click="this.$router.push({name: 'Article', params: {id: article.id}})">开始阅读</el-button>
+          <el-button icon="el-icon-position" @click="this.$router.push({name: 'Article', params: {id: article.id}})" size="small">开始阅读</el-button>
           <hr id="p_line"/>
           <el-button v-for="(tag, index) in article.tags" class="article-key"
                      size="mini" :type="buttonColor[index]" :icon="buttonIcon[index]">{{ tag }}</el-button>
@@ -39,10 +39,10 @@ export default {
       loading: false,
       isShow: false,
       buttonColor: [
-          'primary', 'success', 'warning', 'danger'
+        'primary', 'success', 'warning', 'danger'
       ],
       buttonIcon: [
-          'el-icon-s-opportunity', 'el-icon-s-flag', 'el-icon-info', 'el-icon-star-on'
+        'el-icon-s-opportunity', 'el-icon-s-flag', 'el-icon-info', 'el-icon-star-on'
       ],
       isPhone: false
     }
@@ -81,7 +81,7 @@ export default {
   },
   mounted() {
     this.getArticleList(1);
-    this.isPhone = document.documentElement.clientWidth < 1000;
+    this.isPhone = document.documentElement.clientWidth < 1200;
     console.log(this.isPhone)
     if (this.isPhone) {
       this.isShow = false
@@ -112,8 +112,8 @@ export default {
 .p_article-list {
   list-style-type: none;
   margin: 0;
-  padding: 0;
-  width: 100%;
+  padding: 25px 0 0 0;
+  width: 90%;
   min-height: 91vh;
   display: inline-block;
 }
@@ -129,8 +129,8 @@ export default {
 }
 
 .p_article-card {
-  margin: 30px;
-  height: 200px;
+  margin: 15px 0;
+  height: 185px;
   border-radius: 10px;
   border-color: #969896;
   box-shadow:0 0 20px #ddd;
@@ -147,7 +147,6 @@ export default {
 }
 
 #title {
-  max-width: 400px;
   color: #333333;
   font-size: 25px;
   transition:  color 300ms;
@@ -172,6 +171,7 @@ export default {
 
 #p_time {
   color: #bbbbbb;
+  font-size: 12px;
 }
 
 #description {
@@ -186,7 +186,6 @@ export default {
   padding-top: 10px;
   padding-bottom: 10px;
 }
-
 
 #line {
   margin-top: 15px;
