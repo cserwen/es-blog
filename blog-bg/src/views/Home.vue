@@ -1,9 +1,13 @@
 <template>
-  <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick" class="tab">
-    <el-tab-pane label="博客管理" name="first"></el-tab-pane>
-    <el-tab-pane label="评论管理" name="second"></el-tab-pane>
-    <el-tab-pane label="写文章" name="third" ><div id="editor"></div></el-tab-pane>
-  </el-tabs>
+  <div id="menu">
+    <el-menu mode="horizontal">
+      <el-menu-item index="1" @click="changeView('Blog')">博客管理</el-menu-item>
+      <el-menu-item index="2" @click="changeView('Comment')">评论管理</el-menu-item>
+      <el-menu-item index="3" @click="changeView('Editor')">写文章</el-menu-item>
+    </el-menu>
+    <router-view/>
+
+  </div>
 </template>
 
 <script>
@@ -42,8 +46,8 @@ export default {
           message: "服务器异常"})
       })
     },
-    handleClick(tab, event) {
-      console.log(tab, event);
+    changeView(view) {
+      this.$router.push({name: view})
     }
   },
   mounted() {
@@ -53,12 +57,19 @@ export default {
 </script>
 
 <style >
-.tab {
-  width: 94%;
-  margin: 1% 3%;
+#menu {
+  width: 96%;
+  margin-left: 2%;
+  margin-top: 10px;
+  height: 95vh;
+  box-shadow:0 0 50px #cccccc;
+  border: 1px solid #dddddd;
+  border-radius: 15px;
+  padding-top: 12px;
 }
 
 #editor {
   min-height: 88vh;
 }
+
 </style>
