@@ -10,4 +10,6 @@ public interface UserService {
     HashMap<String, String> userLogin(User user);
 
     Boolean userLogout(String username);
+
+    Boolean userAuth(String token);
 }

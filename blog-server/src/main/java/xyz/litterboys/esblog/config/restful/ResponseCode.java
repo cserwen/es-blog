@@ -4,7 +4,7 @@ public enum ResponseCode {
 
     SUCCESS(0, "操作成功"),
     ERROR(1, "操作失败"),
-    PARAMERROR(1000, "参数错误");
+    PARAM_ERROR(1000, "参数错误");
 
     ResponseCode(Integer code, String msg) {
         this.code = code;

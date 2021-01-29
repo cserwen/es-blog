@@ -59,4 +59,9 @@ public class UserServiceImpl implements UserService {
         user.setToken("");
         return userDao.updateById(user) > 0;
     }
+
+    @Override
+    public Boolean userAuth(String token) {
+        return TokenUtils.verify(token);
+    }
 }

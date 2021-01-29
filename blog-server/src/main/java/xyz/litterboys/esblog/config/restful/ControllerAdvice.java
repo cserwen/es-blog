@@ -36,8 +36,8 @@ public class ControllerAdvice implements ResponseBodyAdvice<Object> {
 
     @ExceptionHandler(value = ParamException.class)
     public ResultUtil handleParamException(HttpServletRequest request, HttpServletResponse response, final ParamException e) {
-        logger.error(e.getMessage(), e);
-        return new ResultUtil(ResponseCode.PARAMERROR.getCode(), ResponseCode.PARAMERROR.getMsg(), e.getMessage());
+        logger.error(e.getMessage() + ": " + request.getRequestURI());
+        return new ResultUtil(ResponseCode.PARAM_ERROR.getCode(), ResponseCode.PARAM_ERROR.getMsg(), e.getMessage());
     }
 
     @ExceptionHandler
