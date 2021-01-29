@@ -1,5 +1,9 @@
 <template>
-  Home
+  <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick" class="tab">
+    <el-tab-pane label="博客管理" name="first"></el-tab-pane>
+    <el-tab-pane label="评论管理" name="second"></el-tab-pane>
+    <el-tab-pane label="写文章" name="third" ><div id="editor"></div></el-tab-pane>
+  </el-tabs>
 </template>
 
 <script>
@@ -9,7 +13,8 @@ export default {
   name: "Home",
   data() {
     return {
-      token: ''
+      token: '',
+      activeName: 'first'
     }
   },
   methods: {
@@ -36,14 +41,24 @@ export default {
           showClose: true,
           message: "服务器异常"})
       })
+    },
+    handleClick(tab, event) {
+      console.log(tab, event);
     }
   },
   mounted() {
-    this.isLogin();
+    // this.isLogin();
   }
 }
 </script>
 
-<style scoped>
+<style >
+.tab {
+  width: 94%;
+  margin: 1% 3%;
+}
 
+#editor {
+  min-height: 88vh;
+}
 </style>
