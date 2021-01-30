@@ -2,7 +2,7 @@ export default {
     tabSize: 4,
     styleActiveLine: true,
     lineNumbers: true,
-    lineWrapping: false,
+    lineWrapping: true,
     line: true,
     mode: 'text/x-src',
     theme: 'default',

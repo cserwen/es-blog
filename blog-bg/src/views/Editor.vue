@@ -4,7 +4,6 @@
         v-model="content"
         theme="oneDark"
         height="865"
-        auto-save="true"
         @on-save="onSave"
         @on-upload-image="onUpladImage"
         @on-ready="onReady"
@@ -30,14 +29,26 @@ export default {
   },
   methods: {
     onUpladImage(file) {
-      //上传图片，明天todo
+      let formdata = new FormData()
+      formdata.append('picture', file)
+      this.axios.post('/article/uploadPicture', formdata, {
+        headers: {
+          'Content-Type':'multipart/form-data'
+        }
+      }).then(res => {
+        this.insert("![](" + res.data.data + ")")
+        console.log(res)
+      }).catch(error => {
+        console.log(error);
+      })
     },
     onReady(data) {
       this.insert = data.insertContent
-      this.insert(localStorage.getItem("article"))
+      this.insert("服务器获取数据")
     },
     onSave(data) {
-      localStorage.setItem("article", data.value)
+      //save服务器
+      console.log(data.value)
     }
   },
 }
