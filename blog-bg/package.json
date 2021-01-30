@@ -13,6 +13,7 @@
     "marked": "^1.2.8",
     "vue": "^3.0.0",
     "vue-axios": "^3.2.0",
+    "vue-meditor": "^2.1.1",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },
@@ -25,6 +26,8 @@
     "@vue/runtime-core": "^3.0.5",
     "axios": "^0.18.1",
     "babel-plugin-component": "^1.1.1",
+    "less": "^4.1.0",
+    "less-loader": "^7.3.0",
     "vue-cli-plugin-axios": "0.0.4",
     "vue-cli-plugin-element-plus": "0.0.9"
   }
