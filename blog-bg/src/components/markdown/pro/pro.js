@@ -347,7 +347,7 @@ export default {
                 this.html = html;
                 this.addImageClickListener();
                 this.addCopyListener();
-                this.$emit('input', currentValue);
+                this.$emit('on-input', currentValue);
             }, 30);
         },
         value() {

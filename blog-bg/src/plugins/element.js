@@ -1,4 +1,15 @@
-import {ElButton, ElCol, ElInput, ElMenu, ElMenuItem, ElMessage, ElRow, ElTabPane, ElTabs} from 'element-plus'
+import {
+  ElButton,
+  ElCol,
+  ElInput,
+  ElLoading,
+  ElMenu,
+  ElMenuItem,
+  ElMessage,
+  ElRow,
+  ElTabPane,
+  ElTabs
+} from 'element-plus'
 import lang from 'element-plus/lib/locale/lang/zh-cn'
 import locale from 'element-plus/lib/locale'
 
@@ -13,4 +24,5 @@ export default (app) => {
   app.use(ElMenuItem)
   app.use(ElRow)
   app.use(ElCol)
+  app.use(ElLoading)
 }
