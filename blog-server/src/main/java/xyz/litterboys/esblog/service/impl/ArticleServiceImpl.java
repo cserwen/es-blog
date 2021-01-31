@@ -3,9 +3,13 @@ package xyz.litterboys.esblog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import xyz.litterboys.esblog.config.ConfigKey;
+import xyz.litterboys.esblog.config.restful.ResultUtil;
 import xyz.litterboys.esblog.dao.ArticleMapper;
 import xyz.litterboys.esblog.dao.TagMapper;
 import xyz.litterboys.esblog.exception.NormalException;
@@ -17,10 +21,13 @@ import xyz.litterboys.esblog.model.view.ArticleView;
 import xyz.litterboys.esblog.service.ArticleService;
 
 import javax.annotation.Resource;
+import java.io.*;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -30,6 +37,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Resource
     private TagMapper tagMapper;
+
+    @Resource
+    private ConfigKey configKey;
 
     @Override
     public HashMap<String, Integer> createTopic(Article article) {
@@ -122,5 +132,62 @@ public class ArticleServiceImpl implements ArticleService {
         articleListView.setArticleCards(articleCards);
         articleListView.setCurrent(articleIPage.getCurrent());
         return articleListView;
+    }
+
+    @Override
+    public ResultUtil uploadPicture(MultipartFile picture) {
+        if (picture == null){
+            throw new NormalException("请选择图片");
+        }
+
+        String picSaveService = configKey.getServiceType();
+
+        String picUrl = null;
+        try {
+            switch (picSaveService){
+                case "gitHub":
+                    //TODO upload picture to github
+                case "gitee":
+                default:
+                    picUrl = savaPicture2Gitee(picture);
+
+            }
+        }catch (IOException | InterruptedException e){
+            e.printStackTrace();
+        }
+        return ResultUtil.success(picUrl);
+    }
+
+    private String savaPicture2Gitee(MultipartFile picture) throws IOException, InterruptedException {
+
+        byte[] bytes = picture.getBytes();
+        String base64 = Base64.getEncoder().encodeToString(bytes);
+        String owner = configKey.getGiteeOwner();
+        String repo = configKey.getGiteeRepo();
+        String path = "img/" + picture.getOriginalFilename();
+        String httpUrl = "https://gitee.com/api/v5/repos/" + owner + "/" + repo + "/contents/" + path;
+        String  accessToken = configKey.getGiteeAccessToken();
+
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("access_token", accessToken);
+        requestBody.put("owner", owner);
+        requestBody.put("repo", repo);
+        requestBody.put("path", path);
+        requestBody.put("content", base64);
+        requestBody.put("message", "upload");
+        String requestStr = new ObjectMapper().writeValueAsString(requestBody);
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(httpUrl))
+                .POST(HttpRequest.BodyPublishers.ofString(requestStr))
+                .header("Content-Type", "application/json")
+                .header("Cache-Control", "no-cache")
+                .build();
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        if (response.statusCode() == 201 || response.statusCode() == 400){
+            return "https://gitee.com/" + owner + "/" + repo +"/raw/master/"+path;
+        }else {
+            return null;
+        }
     }
 }

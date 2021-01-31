@@ -3,6 +3,7 @@ package xyz.litterboys.esblog.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import xyz.litterboys.esblog.model.Article;
 import xyz.litterboys.esblog.service.ArticleService;
 
@@ -37,5 +38,11 @@ public class ArticleController {
     @GetMapping("list")
     private Object getArticleList(@RequestParam("next") long next, @RequestParam("size") long size){
         return articleService.getArticleList(next, size);
+    }
+
+    @PostMapping("uploadPicture")
+    public Object uploadPicture(@RequestBody MultipartFile picture){
+        logger.info("添加图片:" + picture);
+        return articleService.uploadPicture(picture);
     }
 }

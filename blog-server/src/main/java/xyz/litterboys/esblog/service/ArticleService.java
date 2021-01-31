@@ -1,5 +1,7 @@
 package xyz.litterboys.esblog.service;
 
+import org.springframework.web.multipart.MultipartFile;
+import xyz.litterboys.esblog.config.restful.ResultUtil;
 import xyz.litterboys.esblog.model.Article;
 import xyz.litterboys.esblog.model.ArticleCard;
 import xyz.litterboys.esblog.model.view.ArticleListView;
@@ -17,5 +19,7 @@ public interface ArticleService {
     HashMap<String, Boolean> deleteArticleById(String articleId);
 
     ArticleListView getArticleList(long next, long size);
+
+    ResultUtil uploadPicture(MultipartFile picture);
 
 }
