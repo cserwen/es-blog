@@ -4,7 +4,6 @@ import Login from "@/views/Login";
 import Editor from "@/views/Editor";
 import Blog from "@/views/Blog";
 import Comment from "@/views/Comment";
-import Editor2 from "@/views/Editor2";
 
 const routes = [
   {
@@ -16,11 +15,6 @@ const routes = [
         path: '/edit',
         name: 'Editor',
         component: Editor
-      },
-      {
-        path: '/edit2',
-        name: 'Editor2',
-        component: Editor2
       },
       {
         path: '/blog',
