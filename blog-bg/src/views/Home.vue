@@ -56,7 +56,7 @@ export default {
     }
   },
   mounted() {
-    this.isLogin();
+    // this.isLogin();
   }
 }
 </script>
