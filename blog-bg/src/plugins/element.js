@@ -1,12 +1,12 @@
 import {
   ElButton,
-  ElCol,
+  ElCol, ElDialog,
   ElInput,
   ElLoading,
   ElMenu,
   ElMenuItem,
-  ElMessage,
-  ElRow,
+  ElMessage, ElOption,
+  ElRow, ElSelect, ElSwitch,
   ElTabPane,
   ElTabs
 } from 'element-plus'
@@ -25,4 +25,8 @@ export default (app) => {
   app.use(ElRow)
   app.use(ElCol)
   app.use(ElLoading)
+  app.use(ElDialog)
+  app.use(ElSwitch)
+  app.use(ElSelect)
+  app.use(ElOption)
 }

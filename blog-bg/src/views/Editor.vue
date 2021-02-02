@@ -47,8 +47,28 @@
 
     </ul>
 
-    <el-button  @click="publishBlog" type="text" class="publish-blog">发布</el-button>
-
+    <el-button  @click="dialogVisible=true" type="text" class="publish-blog">发布</el-button>
+    <el-dialog title="发布" v-model="dialogVisible" width="30%" center>
+      <el-input v-model="blogTitle" placeholder="请输入标题" clearable></el-input>
+      <el-input v-model="description" placeholder="请输入文章描述" clearable></el-input>
+      <el-switch v-model="isDiscuss" active-text="开启评论"></el-switch>
+      <el-switch v-model="isOpen" active-text="是否公开"></el-switch>
+      <el-switch v-model="isReward" active-text="开启打赏"></el-switch>
+      <el-select v-model="chooseKeys" multiple filterable allow-create default-first-option placeholder="请选择文章标签">
+        <el-option
+            v-for="item in keys"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+        </el-option>
+      </el-select>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogVisible = false">发 布</el-button>
+        </span>
+      </template>
+    </el-dialog>
     <!-- 编辑器 -->
     <div class="markdown-content" :style="{ background: preview ? '' : '#fff' }" v-loading="loading">
       <div class="codemirror" v-show="!preview" @mouseenter="mousescrollSide('left')" >
@@ -102,10 +122,19 @@ export default {
       value: '',
       scrollSide:'left',
       editorScrollHeight: 855,
+      keys: [{ value: '', label: ''}],
 
+      dialogVisible: false,
       token: ''     ,
       loading: false,
       editor: null,
+      blogTitle: '',
+      description: '',
+      isDiscuss: true,
+      isOpen: true,
+      isReward: true,
+      chooseKeys: [],
+
       cmOptions: {
         tabSize: 4,
         mode: 'markdown',
@@ -222,7 +251,7 @@ export default {
           this.$router.push({name: 'Login'})
         }else {
           this.loading = false
-          this.editor.replaceSelection("![](" + res.data.data + ")<br/>")
+          this.editor.replaceSelection("![](" + res.data.data + ")")
           this.editor.focus()
         }
       }).catch(error => {
