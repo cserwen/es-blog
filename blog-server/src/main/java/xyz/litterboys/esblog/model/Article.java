@@ -17,6 +17,7 @@ public class Article {
     private Timestamp createTime;
     private Timestamp updateTime;
     private Boolean isDeleted;
+    private Boolean isDiscuss;
     private Boolean isOpen;
     private Integer readTimes;
     private Integer viewerNums;
@@ -79,6 +80,14 @@ public class Article {
         isDeleted = deleted;
     }
 
+    public Boolean getDiscuss() {
+        return isDiscuss;
+    }
+
+    public void setDiscuss(Boolean discuss) {
+        isDiscuss = discuss;
+    }
+
     public Boolean getOpen() {
         return isOpen;
     }
@@ -129,6 +138,7 @@ public class Article {
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 ", isDeleted=" + isDeleted +
+                ", isDiscuss=" + isDiscuss +
                 ", isOpen=" + isOpen +
                 ", readTimes=" + readTimes +
                 ", viewerNums=" + viewerNums +

@@ -48,13 +48,10 @@
     </ul>
 
     <el-button  @click="dialogVisible=true" type="text" class="publish-blog">发布</el-button>
-    <el-dialog title="发布" v-model="dialogVisible" width="30%" center>
-      <el-input v-model="blogTitle" placeholder="请输入标题" clearable></el-input>
-      <el-input v-model="description" placeholder="请输入文章描述" clearable></el-input>
-      <el-switch v-model="isDiscuss" active-text="开启评论"></el-switch>
-      <el-switch v-model="isOpen" active-text="是否公开"></el-switch>
-      <el-switch v-model="isReward" active-text="开启打赏"></el-switch>
-      <el-select v-model="chooseKeys" multiple filterable allow-create default-first-option placeholder="请选择文章标签">
+    <el-dialog title="发布" v-model="dialogVisible" width="30%" center :close-on-click-modal="closeDialog" :close-on-press-escape="closeDialog" :show-close="closeDialog">
+      <el-input v-model="blogTitle" placeholder="请输入标题" clearable size="small" style="margin: 5px"></el-input>
+      <el-input v-model="description" placeholder="请输入文章描述" clearable size="small" style="margin: 5px"> </el-input>
+      <el-select v-model="chooseKeys" multiple filterable allow-create default-first-option placeholder="请选择文章标签" size="mini" clearable style="margin: 5px; width: 100%">
         <el-option
             v-for="item in keys"
             :key="item.value"
@@ -62,10 +59,13 @@
             :value="item.value">
         </el-option>
       </el-select>
+      <el-switch v-model="isDiscuss" active-text="开启评论" style="margin: 15px 10px 0"></el-switch>
+      <el-switch v-model="isOpen" active-text="是否公开" style="margin: 15px 10px 0"></el-switch>
+      <el-switch v-model="isReward" active-text="开启打赏" style="margin: 15px 10px 0"></el-switch><br/>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">发 布</el-button>
+          <el-button type="primary" @click="publishBlog">发 布</el-button>
         </span>
       </template>
     </el-dialog>
@@ -134,6 +134,7 @@ export default {
       isOpen: true,
       isReward: true,
       chooseKeys: [],
+      closeDialog: false,
 
       cmOptions: {
         tabSize: 4,
@@ -261,6 +262,71 @@ export default {
           message: "服务器异常"
         })
       })
+    },
+    publishBlog() {
+      if (this.blogTitle === ''){
+        ElMessage.warning({
+          showClose: true,
+          message: "请输入标题"
+        })
+        return
+      }
+
+      if (this.description === ''){
+        ElMessage.warning({
+          showClose: true,
+          message: "请输入标文章描述"
+        })
+        return
+      }
+
+      if (this.editor.getValue() === ''){
+        ElMessage.warning({
+          showClose: true,
+          message: "文章内容为空"
+        })
+        return
+      }
+
+      if (this.chooseKeys.length === 0){
+        ElMessage.warning({
+          showClose: true,
+          message: "请设置标签"
+        })
+        return
+      }
+
+      this.axios.post("/article/create", {
+        "title": this.blogTitle,
+        "description": this.description,
+        "content": this.editor.getValue(),
+        "isDiscuss": this.isDiscuss,
+        "isOpen": this.isOpen,
+        "isReward": this.isReward
+        //TODO 添加标签
+      }, {headers: {
+          'token': this.token
+        }}).then(res => {
+        let code = res.data.code
+        if (code === 1){
+          ElMessage.error({
+            showClose: true,
+            message: res.data.data})
+          this.$router.push({name: 'Login'})
+        } else {
+          ElMessage.success({
+            showClose: true,
+            message: "发布成功"
+          })
+        }
+      }).catch(error => {
+        ElMessage.error({
+          showClose: true,
+          message: "服务器异常"})
+      })
+
+      this.dialogVisible = false
+
     },
   },
   mounted() {

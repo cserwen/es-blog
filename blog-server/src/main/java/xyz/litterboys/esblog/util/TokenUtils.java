@@ -13,8 +13,8 @@ import java.util.Map;
 
 public class TokenUtils {
 
-//    private static final long EXPIRE_TIME = 1000*60*60*24*3;
-    private static final long EXPIRE_TIME = 1000*60;
+    private static final long EXPIRE_TIME = 1000*60*60*24*3;
+//    private static final long EXPIRE_TIME = 1000*60;
     private static final String TOKEN_SECRET = "ZSdgShjdhFGFSCwfsjGxDWDd@";
 
     private static final Logger logger = LoggerFactory.getLogger(TokenUtils.class);

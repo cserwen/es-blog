@@ -5,7 +5,7 @@ import {
   ElLoading,
   ElMenu,
   ElMenuItem,
-  ElMessage, ElOption,
+  ElMessage, ElMessageBox, ElOption,
   ElRow, ElSelect, ElSwitch,
   ElTabPane,
   ElTabs
@@ -29,4 +29,5 @@ export default (app) => {
   app.use(ElSwitch)
   app.use(ElSelect)
   app.use(ElOption)
+  app.use(ElMessageBox)
 }
