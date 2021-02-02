@@ -17,12 +17,12 @@
         />
       </li>
       <li name="保存到本地" v-show="exportMd">
-        <span class="iconfont icon-download" @click="exportFile"></span>
+        <span class="iconfont icon-download" @click="exportFile('untitled')"></span>
       </li>
-      <li v-if="split" name="全屏编辑">
+      <li v-if="split" name="关闭预览">
         <span @click="split = false" class="iconfont icon-md"></span>
       </li>
-      <li v-if="!split" name="分屏显示">
+      <li v-if="!split" name="开启预览">
         <span @click="split = true" class="iconfont icon-group"></span>
       </li>
 <!--      <li v-if="openPreview" name="预览">-->
@@ -31,7 +31,6 @@
 <!--                    class="iconfont icon-preview"-->
 <!--                ></span>-->
 <!--      </li>-->
-      <li class="empty"></li>
       <li v-if="!fullscreen" name="全屏">
                 <span
                     @click="fullscreen = true"
@@ -44,18 +43,14 @@
                     class="iconfont icon-quite"
                 ></span>
       </li>
+      <li class="empty"></li>
+
     </ul>
-    <!-- 关闭预览按钮 -->
-    <div
-        class="close-preview"
-        v-show="preview"
-        @click="preview = false"
-    >
-      <span class="iconfont icon-close"></span>
-    </div>
+
+    <el-button  @click="publishBlog" type="text" class="publish-blog">发布</el-button>
 
     <!-- 编辑器 -->
-    <div class="markdown-content" :style="{ background: preview ? '' : '#fff' }">
+    <div class="markdown-content" :style="{ background: preview ? '' : '#fff' }" v-loading="loading">
       <div class="codemirror" v-show="!preview" @mouseenter="mousescrollSide('left')" >
         <textarea id="editor" ></textarea>
       </div>
@@ -80,10 +75,10 @@
 import marked from '../config/marked';
 import Codemirror from 'codemirror'
 import '../css/codemirror.css'
+import 'codemirror/theme/material.css'
 import 'codemirror/addon/selection/active-line'
 import 'codemirror/mode/markdown/markdown';
-// import 'highlight.js/styles/atom-one-dark.css';
-// import 'codemirror/addon/edit/matchbrackets'
+import 'highlight.js/styles/atom-one-dark.css';
 import {ElMessage} from "element-plus";
 
 export default {
@@ -91,7 +86,7 @@ export default {
   data: function () {
     return {
       width: 'auto',
-      height: 865,
+      height: 855,
       bordered: true,
       fullscreen: false,
       uploadImage:true,
@@ -106,10 +101,10 @@ export default {
       html: '',
       value: '',
       scrollSide:'left',
-      editorScrollHeight: 865,
+      editorScrollHeight: 855,
 
       token: ''     ,
-
+      loading: false,
       editor: null,
       cmOptions: {
         tabSize: 4,
@@ -118,7 +113,7 @@ export default {
         lineNumbers: true,
         lineWrapping: true,
         line: true,
-        theme: 'material',
+        theme: 'default',
         cursorHeight:0.8,
         lineWiseCopyCut:true,
         showCursorWhenSelecting: true,
@@ -140,7 +135,17 @@ export default {
       this.editor.on('scroll', this.markdownScroll);
     },
     chooseImage() {
-
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = ()=>{
+        const files = input.files;
+        if(files[0]){
+          this.toUploadImage(files[0])
+          input.value = '';
+        }
+      }
+      input.click();
     },
     importFile(e) {
       const file = e.target.files[0];
@@ -164,8 +169,18 @@ export default {
         console.error(err);
       }
     },
-    exportFile() {
-
+    exportFile(fileName) {
+      let pom = document.createElement('a');
+      pom.setAttribute('href', 'data:text/plain;charset=UTF-8,' + encodeURIComponent(this.editor.getValue()));
+      pom.setAttribute('download', fileName + '.md');
+      pom.style.display = 'none';
+      if (document.createEvent) {
+        const event = document.createEvent('MouseEvents');
+        event.initEvent('click', true, true);
+        pom.dispatchEvent(event);
+      } else {
+        pom.click();
+      }
     },
     mousescrollSide(side) {
       this.scrollSide = side;
@@ -190,7 +205,7 @@ export default {
         this.editor.scrollTo(0, scrollTop);
       }
     },
-    onUploadImage(file) {
+    toUploadImage(file) {
       this.loading = true
       let formdata = new FormData()
       formdata.append('picture', file)
@@ -204,11 +219,11 @@ export default {
           ElMessage.error({
             showClose: true,
             message: "登录失效"})
-          localStorage.setItem("stash", this.value)
           this.$router.push({name: 'Login'})
         }else {
           this.loading = false
-          this.insert("![](" + res.data.data + ")")
+          this.editor.replaceSelection("![](" + res.data.data + ")<br/>")
+          this.editor.focus()
         }
       }).catch(error => {
         this.loading = false

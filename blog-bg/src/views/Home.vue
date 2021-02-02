@@ -1,13 +1,12 @@
 <template>
   <div id="menu">
     <div style="display: flex">
-      <div style="width: 95%">
+      <div style="width: 100%">
         <el-menu mode="horizontal">
           <el-menu-item index="1" @click="changeView('Blog')">博客管理</el-menu-item>
           <el-menu-item index="2" @click="changeView('Comment')">评论管理</el-menu-item>
           <el-menu-item index="3" @click="changeView('Editor')">写文章</el-menu-item>
         </el-menu></div>
-      <el-button v-show="write" style="width: 5%" type="text">发布</el-button>
     </div>
     <router-view/>
   </div>
@@ -22,7 +21,7 @@ export default {
     return {
       token: '',
       activeName: 'first',
-      write: false
+      blogContent: ''
     }
   },
   methods: {
@@ -51,8 +50,10 @@ export default {
       })
     },
     changeView(view) {
-      this.write = view === 'Editor';
       this.$router.push({name: view})
+    },
+    publishBlog() {
+
     }
   },
   mounted() {
