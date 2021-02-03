@@ -32,12 +32,7 @@ export default {
         "token": token
       }, ).then(res => {
         let code = res.data.code
-        if (code === 1000){
-          ElMessage.error({
-            showClose: true,
-            message: res.data.data})
-          this.$router.push({name: 'Login'})
-        }else if (!res.data.data) {
+        if (code === 1) {
           ElMessage.error({
             showClose: true,
             message: "登录失效"})
