@@ -21,6 +21,7 @@ public class ArchiveController {
 
     @GetMapping("list")
     private Object getArticleList(@RequestParam("next") long next, @RequestParam("size") long size){
+        logger.info("#next={}, #size={}", next, size);
         return archiveService.getArchiveList(next, size);
     }
 }

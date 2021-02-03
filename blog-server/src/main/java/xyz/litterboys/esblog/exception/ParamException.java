@@ -2,6 +2,11 @@ package xyz.litterboys.esblog.exception;
 
 public class ParamException extends RuntimeException{
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 725621435974770966L;
+
     public ParamException() {
         super();
     }

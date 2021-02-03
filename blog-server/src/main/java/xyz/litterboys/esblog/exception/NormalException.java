@@ -1,6 +1,11 @@
 package xyz.litterboys.esblog.exception;
 
 public class NormalException extends RuntimeException{
+    /**
+     *
+     */
+    private static final long serialVersionUID = 2470420794348253802L;
+
     public NormalException() {
         super();
     }
