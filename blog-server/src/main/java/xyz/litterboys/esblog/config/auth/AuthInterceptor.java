@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import xyz.litterboys.esblog.dao.UserMapper;
 import xyz.litterboys.esblog.exception.NormalException;
+import xyz.litterboys.esblog.exception.ParamException;
 import xyz.litterboys.esblog.model.User;
 import xyz.litterboys.esblog.util.TokenUtils;
 
@@ -25,13 +26,20 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws NormalException {
         String token = request.getHeader("token");
+        String username = TokenUtils.verify(token);
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.eq("token", token);
+        userQueryWrapper.eq("username", username);
         User user = userDao.selectOne(userQueryWrapper);
-        if (user == null || !TokenUtils.verify(token)){
-            throw new NormalException("User not logged in");
+        if (user == null){
+            throw new ParamException("用户不存在");
         }
 
-        return true;
+        if (user.getToken() != null && token.equals(user.getToken())){
+            logger.info("token={} is ok", token);
+            return true;
+        }else {
+            logger.info("token={} is error", token);
+            return false;
+        }
     }
 }

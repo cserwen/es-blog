@@ -2,7 +2,10 @@ package xyz.litterboys.esblog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 import xyz.litterboys.esblog.dao.UserMapper;
 import xyz.litterboys.esblog.exception.ParamException;
 import xyz.litterboys.esblog.model.User;
@@ -10,6 +13,7 @@ import xyz.litterboys.esblog.service.UserService;
 import xyz.litterboys.esblog.util.TokenUtils;
 
 import javax.annotation.Resource;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.HashMap;
 
@@ -18,6 +22,8 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UserMapper userDao;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     public HashMap<String, String> userLogin(User user) {
@@ -33,10 +39,13 @@ public class UserServiceImpl implements UserService {
         if (userInDB == null){
             throw new ParamException("用户不存在");
         }
-        if (userInDB.getPasswd().equals(user.getPasswd())){
+        String md5Passwd = DigestUtils.md5DigestAsHex(userInDB.getPasswd().getBytes(StandardCharsets.UTF_8));
+        if (md5Passwd.equals(user.getPasswd())){
             String token = generateToken(userInDB);
             HashMap<String, String> res = new HashMap<>(1);
             res.put("token", token);
+            userInDB.setToken(token);
+            userDao.updateById(userInDB);
             return res;
         }else {
             throw new ParamException("密码错误");
@@ -62,6 +71,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean userAuth(String token) {
-        return TokenUtils.verify(token);
+        String username = TokenUtils.verify(token);
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", username);
+        User userInDB = userDao.selectOne(queryWrapper);
+        if (userInDB == null){
+            throw new ParamException("用户不存在");
+        }
+        if (userInDB.getToken() != null && token.equals(userInDB.getToken())){
+            logger.info("token={} is ok", token);
+            return true;
+        }else {
+            logger.info("token={} is error", token);
+            return false;
+        }
     }
 }

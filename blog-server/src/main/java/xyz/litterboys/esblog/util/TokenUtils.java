@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.litterboys.esblog.exception.NormalException;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -31,17 +32,16 @@ public class TokenUtils {
         return token;
     }
 
-    public static Boolean verify(String token){
+    public static String verify(String token){
         logger.info("token={} to be verified", token);
         try {
             Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
             JWTVerifier jwtVerifier = JWT.require(algorithm).build();
             DecodedJWT jwt = jwtVerifier.verify(token);
-            logger.info("token={} is ok", token);
-            return true;
+            return jwt.getClaims().get("username").asString();
         }catch (Exception e){
             logger.info("token={} is error", token);
-            return false;
+            throw new NormalException("登录失效");
         }
     }
 }

@@ -10,6 +10,7 @@
 
 <script>
 import {ElMessage} from "element-plus";
+import md5 from 'js-md5';
 
 export default {
   name: "Login",
@@ -23,7 +24,7 @@ export default {
     login() {
       this.axios.post("/user/login", {
         "username": this.username,
-        "passwd": this.password
+        "passwd": md5(this.password)
       }, ).then(res => {
         let code = res.data.code
         if (code === 1000){
@@ -33,6 +34,9 @@ export default {
           this.$router.push({name: 'Login'})
         } else {
           localStorage.setItem("token", res.data.data.token)
+          ElMessage.success({
+            showClose: true,
+            message: "登陆成功"})
           this.$router.push({name: 'Home'})
         }
       }).catch(error => {

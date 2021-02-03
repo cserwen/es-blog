@@ -48,7 +48,7 @@
     </ul>
 
     <el-button  @click="dialogVisible=true" type="text" class="publish-blog">发布</el-button>
-    <el-dialog title="发布" v-model="dialogVisible" width="30%" center :close-on-click-modal="closeDialog" :close-on-press-escape="closeDialog" :show-close="closeDialog">
+    <el-dialog title="发布" v-model="dialogVisible" width="30%" center :close-on-click-modal="closeDialog" :close-on-press-escape="closeDialog" :show-close="closeDialog" :model-value="dialogVisible">
       <el-input v-model="blogTitle" placeholder="请输入标题" clearable size="small" style="margin: 5px"></el-input>
       <el-input v-model="description" placeholder="请输入文章描述" clearable size="small" style="margin: 5px"> </el-input>
       <el-select v-model="chooseKeys" multiple filterable allow-create default-first-option placeholder="请选择文章标签" size="mini" clearable style="margin: 5px; width: 100%">
