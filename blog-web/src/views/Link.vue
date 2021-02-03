@@ -2,13 +2,13 @@
   <div id="link">
     <div v-for="link in links">
       <div class="link-tab">
-        <div class="top">
-          <div class="avater"> dd</div>
-          <div class="description">dddw</div>
+        <div class="top" style="display: flex">
+          <img class="avatar" :src="link.avatarUrl"/>
+          <div class="description">{{ link.description }}</div>
         </div>
-	      <div class="bottom">
-          <div class="urlLink">dddd</div>
-          <div class="myDes">dd</div>
+	      <div class="bottom" style="display: flex">
+          <div style="width: 40%; position: fixed; top: 37%;"><el-link class="urlLink" :href="link.url" :underline="false">{{ link.site }}</el-link></div>
+          <div class="myDes">{{ link.motto }}</div>
         </div>
       </div>
       <div style="height: 20px"/>
@@ -21,8 +21,21 @@ export default {
   name: "Link",
   data() {
     return {
-      links: ['a', 'b', 'c','a', 'b', 'c']
+      links: []
     }
+  },
+  methods: {
+    getLinkList() {
+      this.axios.get('/link/list')
+          .then(res => {
+            this.links = res.data.data;
+      }).catch(error => {
+
+      })
+    }
+  },
+  mounted() {
+    this.getLinkList()
   }
 }
 </script>
@@ -30,7 +43,6 @@ export default {
 <style scoped>
 #link{
   margin: 50px 10px;
-  width: 100%;
   height: 100%;
 }
 
@@ -45,6 +57,8 @@ export default {
   perspective: 2000px;
 }
 .top{
+  border-radius: 15px;
+  padding-left: 30px;
   width: 100%;
   height: 100%;
   box-shadow: 0 0 20px #ddd;
@@ -53,6 +67,7 @@ export default {
   text-align: center;
 }
 .bottom{
+  border-radius:15px;
   width: 100%;
   height: 100%;
   box-shadow: 0 0 20px #ddd;
@@ -70,4 +85,22 @@ export default {
 .link-tab:hover .bottom{
   transform: rotateY(0deg);
 }
+
+.avatar {
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  margin-top: 20px;
+  margin-left: 10px;
+}
+
+.description {
+  text-align: center;
+  position: fixed;
+  top: 35%;
+  color: #3C8CE7;
+  font-size: 20px;
+  width: 100%;
+}
+
 </style>
