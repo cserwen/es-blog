@@ -28,7 +28,7 @@ const routes = [
     component: About
   },
   {
-    path: "/links",
+    path: "/link",
     name: "Link",
     component: Link
   },
