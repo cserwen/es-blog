@@ -37,7 +37,14 @@ export default {
             showClose: true,
             message: "登录失效"})
           this.$router.push({name: 'Login'})
-        }else if (!res.data.data) {
+        }else if(code === 1000) {
+          ElMessage.error({
+            showClose: true,
+            message: "登录失效"})
+          this.$router.push({name: 'Login'})
+        }
+
+        if (!res.data.data) {
           ElMessage.error({
             showClose: true,
             message: "登录失效"})

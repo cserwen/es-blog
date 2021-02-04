@@ -7,10 +7,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import xyz.litterboys.esblog.dao.ArticleMapper;
 import xyz.litterboys.esblog.model.Article;
-import xyz.litterboys.esblog.model.ArticleCard;
 import xyz.litterboys.esblog.model.view.ArchiveListView;
 import xyz.litterboys.esblog.model.view.ArchiveView;
-import xyz.litterboys.esblog.model.view.ArticleListView;
 import xyz.litterboys.esblog.service.ArchiveService;
 
 import javax.annotation.Resource;

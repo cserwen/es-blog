@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
         User userInDB = userDao.selectOne(queryWrapper);
         if (userInDB == null){
             throw new ParamException("用户不存在");
-        }
+        }   
         if (userInDB.getToken() != null && token.equals(userInDB.getToken())){
             logger.info("token={} is ok", token);
             return true;
