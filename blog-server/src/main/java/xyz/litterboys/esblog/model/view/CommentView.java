@@ -1,23 +1,18 @@
-package xyz.litterboys.esblog.model;
-
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+package xyz.litterboys.esblog.model.view;
 
 import java.sql.Timestamp;
 
-@TableName("comment")
-public class Comment {
-
-    @TableId(type = IdType.AUTO)
+public class CommentView {
+    
     private Integer id;
     private String comment;
     private Integer articleId;
     private Integer parentId;
     private Integer replyId;
     private Timestamp createTime;
-    private boolean isDeleted;
     private Integer commentUserId;
+    private String username;
+    private String site;
 
     public Integer getId() {
         return id;
@@ -41,14 +36,6 @@ public class Comment {
 
     public void setArticleId(Integer articleId) {
         this.articleId = articleId;
-    }
-
-    public Integer getCommentUserId() {
-        return commentUserId;
-    }
-    
-    public void setCommentUserId(Integer commentUserId) {
-        this.commentUserId = commentUserId;
     }
 
     public Integer getParentId() {
@@ -75,19 +62,37 @@ public class Comment {
         this.createTime = createTime;
     }
 
-    public boolean isDeleted() {
-        return isDeleted;
+    public Integer getCommentUserId() {
+        return commentUserId;
     }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+    public void setCommentUserId(Integer commentUserId) {
+        this.commentUserId = commentUserId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
     }
 
     @Override
     public String toString() {
-        return "Comment [articleId=" + articleId + ", comment=" + comment + ", commentUserId=" + commentUserId
-                + ", createTime=" + createTime + ", id=" + id + ", isDeleted=" + isDeleted + ", parentId=" + parentId
-                + ", replyId=" + replyId + "]";
+        return "CommentView [articleId=" + articleId + ", comment=" + comment + ", commentUserId=" + commentUserId
+                + ", createTime=" + createTime + ", id=" + id + ", parentId=" + parentId + ", replyId=" + replyId
+                + ", site=" + site + ", username=" + username + "]";
     }
 
+    
+    
 }
