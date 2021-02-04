@@ -24,6 +24,27 @@
       <el-tree v-show="tocShow" :data="tocData.children" :props="defaultProps" @node-click="handleNodeClick" id="article-toc">
       </el-tree>
     </transition>
+    <div style="margin: 0 24% 30px; text-align: left" v-show="isShow">
+      <el-tooltip content="请评论吧！" placement="right-start" effect="light" style="width: 160px"><div >コメントしてください</div></el-tooltip>
+      <div style='background-color:#dddddd;height:1px;border:none; '/>
+    </div>
+    <div id="comment">
+      <div class="comment-card" v-for="comment in comments">
+        <div style="padding: 0 10px; text-align: left; color: #999999;display: flex">
+          <div style="width: 92%"><span type="text" style="margin: 0 5px">{{ comment.username }}</span>{{ comment.createTime }}</div>
+          <div style="width: 8%; text-align: center" class="replay"><el-button type="text" @click="addComment">replay</el-button></div>
+        </div>
+<!--        <div style='background-color:#dddddd;height:1px;border:none; margin: 5px 0'/>-->
+        <div v-show="comment.replyId !== 0" style="display: flex">
+          <blockquote style="padding: 0 10px; color: #6a737d; border-left: .20em solid #97CAFF; margin: 10px 30px 5px">
+            <p style="text-align: left; margin: 5px; color: #888888">{{ comment.replyContent }}</p>
+          </blockquote>
+        </div>
+        <div  style="text-align: left; margin:3px 20px; color: gray">
+          {{ comment.comment }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -46,7 +67,8 @@ export default {
       isPhone: false,
       tocData: {
         children: []
-      }
+      },
+      comments: [],
     }
   },
   methods: {
@@ -93,16 +115,19 @@ export default {
     },
     findHeadTag(){
       if (this.isPhone){
+        this.getComments()
         return;
       }
       let h = document.querySelectorAll("h1, h2, h3, h4, h5, h6")
       if (h.length === 0){
+        this.getComments()
         return
       }
 
       let base_level = Number(h.item(0).nodeName.substring(1,2));
       this.buildToc(h, 0, base_level)
       this.tocShowChange()
+      this.getComments()
     },
     tocShowChange(){
       this.tocShow = true
@@ -155,6 +180,30 @@ export default {
         this.hideAside()
         setTimeout(this.getArticleDetails, 200)
       }
+    },
+    getComments() {
+      this.axios.get('/comment/getCommentsByArticleId', {
+        params: {
+          articleId: this.$route.params.id
+        }
+      }).then(res => {
+        if (res.data.code === 0){
+          this.comments = res.data.data
+        }else {
+          ElMessage.warning({
+            showClose: true,
+            message: res.data.data
+          })
+        }
+      }).catch(error => {
+        ElMessage.error({
+          showClose: true,
+          message: "服务器异常"
+        })
+      })
+    },
+    addComment() {
+
     }
 
   },
@@ -234,5 +283,38 @@ export default {
   padding: 3px;
 }
 
+.comment-card {
+  padding: 10px 0;
+  border: 1px solid #ffffff;
+  /*background-color: #999999;*/
+}
 
+.comment-card:hover {
+  padding: 10px 0;
+  background-color: #e1e4e8;
+  border: 1px solid #e1e4e8;
+  box-shadow: 0 0 20px #ddd;
+  border-radius: 10px;
+  /*background-color: #999999;*/
+}
+
+#comment {
+  margin: 0 24% 30px;
+  /*border: 1px solid #dddddd;*/
+  /*box-shadow: 0 0 20px #ddd;;*/
+  /*border-radius: 10px;*/
+}
+
+.commentUser {
+  border-radius: 5px;
+  border: 1px solid #999999;
+  padding: 2px 5px;
+}
+
+.replay {
+}
+
+.comment-card .el-button {
+  padding: 0;
+}
 </style>

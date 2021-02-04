@@ -20,6 +20,5 @@ public class CommentController {
     public Object getCommentList(@RequestParam("articleId") Integer articleId){
         
         return commentService.getCommentList(articleId);
-        
     }
 }

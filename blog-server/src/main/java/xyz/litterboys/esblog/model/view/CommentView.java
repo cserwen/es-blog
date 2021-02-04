@@ -9,6 +9,16 @@ public class CommentView {
     private Integer articleId;
     private Integer parentId;
     private Integer replyId;
+    private String replyContent;
+
+    public String getReplyContent() {
+        return replyContent;
+    }
+
+    public void setReplyContent(String replyContent) {
+        this.replyContent = replyContent;
+    }
+
     private Timestamp createTime;
     private Integer commentUserId;
     private String username;
@@ -88,11 +98,17 @@ public class CommentView {
 
     @Override
     public String toString() {
-        return "CommentView [articleId=" + articleId + ", comment=" + comment + ", commentUserId=" + commentUserId
-                + ", createTime=" + createTime + ", id=" + id + ", parentId=" + parentId + ", replyId=" + replyId
-                + ", site=" + site + ", username=" + username + "]";
+        return "CommentView{" +
+                "id=" + id +
+                ", comment='" + comment + '\'' +
+                ", articleId=" + articleId +
+                ", parentId=" + parentId +
+                ", replyId=" + replyId +
+                ", replyContent=" + replyContent +
+                ", createTime=" + createTime +
+                ", commentUserId=" + commentUserId +
+                ", username='" + username + '\'' +
+                ", site='" + site + '\'' +
+                '}';
     }
-
-    
-    
 }
