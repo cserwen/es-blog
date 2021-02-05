@@ -17,7 +17,9 @@ public class Comment {
     private Integer replyId;
     private Timestamp createTime;
     private boolean isDeleted;
-    private Integer commentUserId;
+    private String username;
+    private String site;
+    private String email;
 
     public Integer getId() {
         return id;
@@ -41,14 +43,6 @@ public class Comment {
 
     public void setArticleId(Integer articleId) {
         this.articleId = articleId;
-    }
-
-    public Integer getCommentUserId() {
-        return commentUserId;
-    }
-    
-    public void setCommentUserId(Integer commentUserId) {
-        this.commentUserId = commentUserId;
     }
 
     public Integer getParentId() {
@@ -83,11 +77,43 @@ public class Comment {
         isDeleted = deleted;
     }
 
-    @Override
-    public String toString() {
-        return "Comment [articleId=" + articleId + ", comment=" + comment + ", commentUserId=" + commentUserId
-                + ", createTime=" + createTime + ", id=" + id + ", isDeleted=" + isDeleted + ", parentId=" + parentId
-                + ", replyId=" + replyId + "]";
+    public String getUsername() {
+        return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", comment='" + comment + '\'' +
+                ", articleId=" + articleId +
+                ", parentId=" + parentId +
+                ", replyId=" + replyId +
+                ", createTime=" + createTime +
+                ", isDeleted=" + isDeleted +
+                ", username='" + username + '\'' +
+                ", site='" + site + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

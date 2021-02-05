@@ -25,9 +25,38 @@
       </el-tree>
     </transition>
     <div style="margin: 0 24% 30px; text-align: left" v-show="isShow">
-      <el-tooltip content="请评论吧！" placement="right-start" effect="light" style="width: 160px"><div >コメントしてください</div></el-tooltip>
-      <div style='background-color:#dddddd;height:1px;border:none; '/>
+      <el-tooltip content="请评论吧！" placement="right-start" effect="light" style="width: 160px; margin: 11px 0"><div >コメントしてください</div></el-tooltip>
+      <div id="comment-editor" >
+        <div style="display: flex">
+          <div :class="isWriteComment ? 'chooseStyle' : 'unChooseStyle'" @click="isWriteComment = true">
+            评论
+          </div>
+          <div :class="!isWriteComment ? 'chooseStyle' : 'unChooseStyle'" @click="isWriteComment = false">
+            预览
+          </div>
+          <div class="editor-bars" style="width: 80%; text-align: right">
+          </div>
+        </div>
+        <div style="display: block; min-height: 200px">
+          <div class="write" v-show="isWriteComment">
+            dddaawd
+          </div>
+
+          <div class="preview" v-show="!isWriteComment">
+
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; padding: 5px">
+        <div style="width: 70%; color: grey">
+          Markdown is supported!
+        </div>
+        <div style="width: 30%; text-align: right">
+          <el-button>发布评论</el-button>
+        </div>
+      </div>
     </div>
+
     <div id="comment">
       <div class="comment-card" v-for="comment in comments">
         <div style="padding: 0 10px; text-align: left; color: #999999;display: flex">
@@ -37,7 +66,7 @@
 <!--        <div style='background-color:#dddddd;height:1px;border:none; margin: 5px 0'/>-->
         <div v-show="comment.replyId !== 0" style="display: flex">
           <blockquote style="padding: 0 10px; color: #6a737d; border-left: .20em solid #97CAFF; margin: 10px 30px 5px">
-            <p style="text-align: left; margin: 5px; color: #888888">{{ comment.replyContent }}</p>
+            <p style="text-align: left; margin: 1px; color: #888888">{{ comment.replyContent }}</p>
           </blockquote>
         </div>
         <div  style="text-align: left; margin:3px 20px; color: gray">
@@ -69,6 +98,7 @@ export default {
         children: []
       },
       comments: [],
+      isWriteComment: true
     }
   },
   methods: {
@@ -284,25 +314,22 @@ export default {
 }
 
 .comment-card {
+  margin: 20px 0;
   padding: 10px 0;
   border: 1px solid #ffffff;
-  /*background-color: #999999;*/
 }
 
 .comment-card:hover {
+  margin: 20px 0;
   padding: 10px 0;
   background-color: #e1e4e8;
   border: 1px solid #e1e4e8;
-  box-shadow: 0 0 20px #ddd;
+  box-shadow: 0 0 20px #c6cbd1;
   border-radius: 10px;
-  /*background-color: #999999;*/
 }
 
 #comment {
   margin: 0 24% 30px;
-  /*border: 1px solid #dddddd;*/
-  /*box-shadow: 0 0 20px #ddd;;*/
-  /*border-radius: 10px;*/
 }
 
 .commentUser {
@@ -317,4 +344,33 @@ export default {
 .comment-card .el-button {
   padding: 0;
 }
+
+#comment-editor {
+  border-radius: 5px;
+  border: 1px solid #dddddd;
+  max-height: 200px;
+}
+
+.write {
+  width: 100%;
+  height: auto;
+  border-top: 1px solid #dddddd;
+}
+
+.preview {
+  width: 100%;
+  height: auto;
+  border-top: 1px solid #dddddd;
+}
+
+.chooseStyle {
+  border-bottom: 2px solid #97CAFF;
+  padding: 5px 10px;
+}
+
+.unChooseStyle {
+  padding: 5px 10px;
+
+}
+
 </style>

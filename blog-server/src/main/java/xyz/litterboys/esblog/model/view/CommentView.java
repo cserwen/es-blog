@@ -10,6 +10,9 @@ public class CommentView {
     private Integer parentId;
     private Integer replyId;
     private String replyContent;
+    private Timestamp createTime;
+    private String username;
+    private String site;
 
     public String getReplyContent() {
         return replyContent;
@@ -18,11 +21,6 @@ public class CommentView {
     public void setReplyContent(String replyContent) {
         this.replyContent = replyContent;
     }
-
-    private Timestamp createTime;
-    private Integer commentUserId;
-    private String username;
-    private String site;
 
     public Integer getId() {
         return id;
@@ -72,14 +70,6 @@ public class CommentView {
         this.createTime = createTime;
     }
 
-    public Integer getCommentUserId() {
-        return commentUserId;
-    }
-
-    public void setCommentUserId(Integer commentUserId) {
-        this.commentUserId = commentUserId;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -106,7 +96,6 @@ public class CommentView {
                 ", replyId=" + replyId +
                 ", replyContent=" + replyContent +
                 ", createTime=" + createTime +
-                ", commentUserId=" + commentUserId +
                 ", username='" + username + '\'' +
                 ", site='" + site + '\'' +
                 '}';
