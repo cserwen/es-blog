@@ -63,7 +63,8 @@
     <div id="comment">
       <div class="comment-card" v-for="comment in comments">
         <div style="padding: 0 10px; text-align: left; color: #999999;display: flex">
-          <div style="width: 92%"><span type="text" style="margin: 0 5px">{{ comment.username }}</span>{{ comment.createTime }}</div>
+          <div style="width: 92%"><el-link style="margin: 5px 5px; font-size: 1em" :href="comment.site" :disabled="comment.site === ''">{{ comment.username }}</el-link>
+            <span style="font-size: 0.9em; padding-left: 5px">{{ new Date(comment.createTime).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'') }}</span></div>
           <div style="width: 8%; text-align: center" class="replay"><el-button type="text" @click="replayComment">replay</el-button></div>
         </div>
 <!--        <div style='background-color:#dddddd;height:1px;border:none; margin: 5px 0'/>-->
@@ -275,6 +276,8 @@ export default {
             showClose: true,
             message: '发送成功'
           })
+          this.getComments()
+          this.commentContext = ''
         }else {
           ElMessage.warning({
             showClose: true,

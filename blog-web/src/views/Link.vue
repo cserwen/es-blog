@@ -68,6 +68,7 @@ export default {
 }
 .bottom{
   border-radius:15px;
+  padding-left: 30px;
   width: 100%;
   height: 100%;
   box-shadow: 0 0 20px #ddd;
