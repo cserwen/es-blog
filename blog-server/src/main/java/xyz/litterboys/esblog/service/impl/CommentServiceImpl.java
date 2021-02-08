@@ -1,5 +1,7 @@
 package xyz.litterboys.esblog.service.impl;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import xyz.litterboys.esblog.dao.CommentMapper;
 import xyz.litterboys.esblog.model.Comment;
+import xyz.litterboys.esblog.model.CommentAddModel;
 import xyz.litterboys.esblog.model.view.CommentView;
 import xyz.litterboys.esblog.service.CommentService;
 
@@ -27,7 +30,7 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentView> getCommentList(int articleId) {
 
         QueryWrapper<Comment> commentQueryWrapper = new QueryWrapper<>();
-        commentQueryWrapper.eq("article_id", articleId);
+        commentQueryWrapper.eq("article_id", articleId).eq("is_deleted", false);
         List<Comment> comments = commentMapper.selectList(commentQueryWrapper);
         Map<Integer, List<Comment>> commentMap = comments.stream().collect(Collectors.groupingBy(Comment::getId));
 
@@ -49,5 +52,13 @@ public class CommentServiceImpl implements CommentService {
         commentViews.sort(Comparator.comparing(CommentView::getCreateTime));
         return commentViews;
     }
-    
+
+    @Override
+    public Boolean addComment(CommentAddModel comment) {
+        Comment comment1 = new Comment();
+        BeanUtils.copyProperties(comment, comment1);
+        comment1.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        commentMapper.insert(comment1);
+        return true;
+    }
 }

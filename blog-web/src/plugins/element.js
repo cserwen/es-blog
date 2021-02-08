@@ -2,7 +2,7 @@ import {
   ElAside, ElAvatar,
   ElButton, ElCard, ElCollapseTransition,
   ElContainer,
-  ElFooter, ElInfiniteScroll, ElLink, ElLoading,
+  ElFooter, ElInfiniteScroll, ElInput, ElLink, ElLoading,
   ElMain,
   ElMenu, ElMenuItem, ElMessage, ElPagination,
   ElRadioButton,
@@ -39,4 +39,5 @@ export default (app) => {
   app.use(ElTooltip)
   app.use(ElTabs)
   app.use(ElTabPane)
+  app.use(ElInput)
 }

@@ -26,33 +26,36 @@
     </transition>
     <div style="margin: 0 24% 30px; text-align: left" v-show="isShow">
       <el-tooltip content="请评论吧！" placement="right-start" effect="light" style="width: 160px; margin: 11px 0"><div >コメントしてください</div></el-tooltip>
+      <div style="display: flex; margin: 0">
+        <el-input v-model="username" placeholder="请输入昵称"></el-input>
+        <el-input v-model="site" placeholder="请输入网站"></el-input>
+        <el-input v-model="email" placeholder="请输入邮箱"></el-input>
+
+      </div>
       <div id="comment-editor" >
         <div style="display: flex">
           <div :class="isWriteComment ? 'chooseStyle' : 'unChooseStyle'" @click="isWriteComment = true">
             评论
           </div>
-          <div :class="!isWriteComment ? 'chooseStyle' : 'unChooseStyle'" @click="isWriteComment = false">
+          <div :class="!isWriteComment ? 'chooseStyle' : 'unChooseStyle'" @click="previewComment">
             预览
           </div>
           <div class="editor-bars" style="width: 80%; text-align: right">
           </div>
         </div>
         <div style="display: block; min-height: 200px">
-          <div class="write" v-show="isWriteComment">
-            dddaawd
-          </div>
-
-          <div class="preview" v-show="!isWriteComment">
+          <textarea class="write" v-show="isWriteComment" placeholder="请输入内容" rows="8" v-model="commentContext"></textarea>
+          <div class="preview markdown-body" v-show="!isWriteComment" v-html="commentHtml">
 
           </div>
         </div>
       </div>
       <div style="display: flex; padding: 5px">
         <div style="width: 70%; color: grey">
-          Markdown is supported!
+          <el-button type="text">Markdown is supported!</el-button>
         </div>
         <div style="width: 30%; text-align: right">
-          <el-button>发布评论</el-button>
+          <el-button @click="addComment" size="small">发布评论</el-button>
         </div>
       </div>
     </div>
@@ -61,7 +64,7 @@
       <div class="comment-card" v-for="comment in comments">
         <div style="padding: 0 10px; text-align: left; color: #999999;display: flex">
           <div style="width: 92%"><span type="text" style="margin: 0 5px">{{ comment.username }}</span>{{ comment.createTime }}</div>
-          <div style="width: 8%; text-align: center" class="replay"><el-button type="text" @click="addComment">replay</el-button></div>
+          <div style="width: 8%; text-align: center" class="replay"><el-button type="text" @click="replayComment">replay</el-button></div>
         </div>
 <!--        <div style='background-color:#dddddd;height:1px;border:none; margin: 5px 0'/>-->
         <div v-show="comment.replyId !== 0" style="display: flex">
@@ -69,9 +72,7 @@
             <p style="text-align: left; margin: 1px; color: #888888">{{ comment.replyContent }}</p>
           </blockquote>
         </div>
-        <div  style="text-align: left; margin:3px 20px; color: gray">
-          {{ comment.comment }}
-        </div>
+        <div  style="text-align: left; margin:3px 20px; color: gray" v-html="comment.comment" class="markdown-body"></div>
       </div>
     </div>
   </div>
@@ -98,7 +99,13 @@ export default {
         children: []
       },
       comments: [],
-      isWriteComment: true
+      isWriteComment: true,
+      commentContext: '',
+      commentHtml: '',
+      username: '',
+      site: '',
+      email: '',
+      replayId: 0
     }
   },
   methods: {
@@ -183,15 +190,26 @@ export default {
         }
       }
     },
+    initParams() {
+      this.commentContext = ''
+      this.commentHtml = ''
+      this.isWriteComment = true
+      this.site = ''
+      this.email = ''
+      this.username = ''
+      this.replayId = 0
+      this.tocData = {
+        children: []
+      }
+      this.index = 0
+      this.isShow = false
+      this.tocShow = false
+      window.scrollTo(0,0);
+    },
     getLastArticle() {
       if (this.article.hasLast){
-        this.tocData = {
-          children: []
-        }
-        this.index = 0
-        this.isShow = false
-        this.tocShow = false
-        window.scrollTo(0,0);
+        this.initParams()
+
         this.$router.push({name: 'Article', params: {id: this.article.lastId}})
         this.hideAside()
         setTimeout(this.getArticleDetails, 200)
@@ -199,13 +217,7 @@ export default {
     },
     getNextArticle() {
       if (this.article.hasNext) {
-        this.tocData = {
-          children: []
-        }
-        this.index = 0
-        this.isShow = false
-        this.tocShow = false
-        window.scrollTo(0,0);
+        this.initParams()
         this.$router.push({name: 'Article', params: {id: this.article.nextId}})
         this.hideAside()
         setTimeout(this.getArticleDetails, 200)
@@ -219,6 +231,7 @@ export default {
       }).then(res => {
         if (res.data.code === 0){
           this.comments = res.data.data
+
         }else {
           ElMessage.warning({
             showClose: true,
@@ -233,9 +246,63 @@ export default {
       })
     },
     addComment() {
-
+      if (this.commentContext === '') {
+        ElMessage.warning({
+          showClose: true,
+          message: '内容不能为空'
+        })
+        return
+      }
+      this.commentHtml = marked(this.commentContext, {
+        breaks: true,
+        gfm: true,
+        tables: true,
+        smartLists: true,
+        highlight: function(code) {
+          return hljs.highlightAuto(code).value;
+        }
+      }).replace(/<pre>/g, "<pre class='hljs'>")
+      this.axios.post("/comment/add", {
+        comment: this.commentHtml,
+        articleId: this.$route.params.id,
+        replayId: this.replayId,
+        username: this.username === '' ? "陌生人" : this.username,
+        site: this.site,
+        email: this.email
+      }).then(res => {
+        if (res.data.code === 0) {
+          ElMessage.success({
+            showClose: true,
+            message: '发送成功'
+          })
+        }else {
+          ElMessage.warning({
+            showClose: true,
+            message: '发送失败'
+          })
+        }
+      }).catch(err => {
+        ElMessage.error({
+          showClose: true,
+          message: '服务器异常'
+        })
+      })
+    },
+    previewComment(){
+      this.isWriteComment = false
+      this.commentHtml = marked(this.commentContext, {
+        breaks: true,
+        gfm: true,
+        tables: true,
+        smartLists: true,
+        highlight: function(code) {
+          return hljs.highlightAuto(code).value;
+        }
+      }).replace(/<pre>/g, "<pre class='hljs'>")
+    },
+    replayComment() {
+      //TODO
     }
-
   },
   created() {
     this.isPhone = document.documentElement.clientWidth < 1200;
@@ -352,15 +419,27 @@ export default {
 }
 
 .write {
-  width: 100%;
-  height: auto;
+  padding: 10px;
+  width: calc(100% - 20px);
+  resize: none;
+  font-size: 1em;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   border-top: 1px solid #dddddd;
+  outline: none;
+  border-left: none;
+  border-bottom: none;
+  border-right: none;
+
 }
 
 .preview {
-  width: 100%;
-  height: auto;
+  width: calc(100% - 20px);
+  min-height: 50px;
+  max-height: 140px;
+  overflow: auto;
+  padding: 10px 10px;
   border-top: 1px solid #dddddd;
+
 }
 
 .chooseStyle {
