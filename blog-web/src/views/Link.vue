@@ -1,7 +1,7 @@
 <template>
   <div id="link">
     <div v-for="link in links">
-      <div class="link-tab">
+      <div :class="isPhone ? 'p_link-tab' : 'link-tab'">
         <div class="top" style="display: flex">
           <img class="avatar" :src="link.avatarUrl"/>
           <div class="description">{{ link.description }}</div>
@@ -21,7 +21,8 @@ export default {
   name: "Link",
   data() {
     return {
-      links: []
+      links: [],
+      isPhone: false
     }
   },
   methods: {
@@ -36,6 +37,7 @@ export default {
   },
   mounted() {
     this.getLinkList()
+    this.isPhone = document.documentElement.clientWidth < 1200;
   }
 }
 </script>
@@ -44,6 +46,7 @@ export default {
 #link{
   margin: 50px 10px;
   height: 100%;
+  text-align: center;
 }
 
 *{
@@ -51,15 +54,19 @@ export default {
   padding: 0;
 }
 .link-tab{
-  width: 500px;
   height: 100px;
-  margin: auto;
+  margin: 0 35%;
+  perspective: 2000px;
+}
+
+.p_link-tab {
+  height: 100px;
+  margin: 0 10px;
   perspective: 2000px;
 }
 .top{
   border-radius: 15px;
   padding-left: 30px;
-  width: 100%;
   height: 100%;
   box-shadow: 0 0 20px #ddd;
   transition: all linear 0.5s;
@@ -69,7 +76,6 @@ export default {
 .bottom{
   border-radius:15px;
   padding-left: 30px;
-  width: 100%;
   height: 100%;
   box-shadow: 0 0 20px #ddd;
   transition: all linear 0.5s;
@@ -78,7 +84,7 @@ export default {
   transform: rotateY(180deg);
   position: relative;
   top:-100%;
-  left: 0px;
+  left: 0;
 }
 .link-tab:hover .top{
   transform: rotateY(-180deg);
@@ -87,12 +93,18 @@ export default {
   transform: rotateY(0deg);
 }
 
+.p_link-tab:hover .top{
+  transform: rotateY(-180deg);
+}
+.p_link-tab:hover .bottom{
+  transform: rotateY(0deg);
+}
+
 .avatar {
   border-radius: 50%;
   width: 70px;
   height: 70px;
-  margin-top: 20px;
-  margin-left: 10px;
+  margin-top: 15px;
 }
 
 .description {
@@ -101,7 +113,7 @@ export default {
   top: 35%;
   color: #3C8CE7;
   font-size: 20px;
-  width: 100%;
+  margin-left: 90px;
 }
 
 </style>

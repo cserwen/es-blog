@@ -26,6 +26,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -167,7 +168,7 @@ public class ArticleServiceImpl implements ArticleService {
         String base64 = Base64.getEncoder().encodeToString(bytes);
         String owner = configKey.getGiteeOwner();
         String repo = configKey.getGiteeRepo();
-        String path = "img/" + picture.getOriginalFilename();
+        String path = "img/" + new Date(System.currentTimeMillis()).getTime() + "." + picture.getContentType().split("/")[1];
         String httpUrl = "https://gitee.com/api/v5/repos/" + owner + "/" + repo + "/contents/" + path;
         String  accessToken = configKey.getGiteeAccessToken();
 

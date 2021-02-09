@@ -24,7 +24,7 @@
       <el-tree v-show="tocShow" :data="tocData.children" :props="defaultProps" @node-click="handleNodeClick" id="article-toc">
       </el-tree>
     </transition>
-    <div style="margin: 0 24% 30px; text-align: left" v-show="isShow">
+    <div style="" v-show="isShow" :class="isPhone ? 'p_writeDiv' : 'writeDiv'">
       <el-tooltip content="请评论吧！" placement="right-start" effect="light" style="width: 160px; margin: 11px 0"><div >コメントしてください</div></el-tooltip>
       <div style="display: flex; margin: 0">
         <el-input v-model="username" placeholder="请输入昵称"></el-input>
@@ -40,7 +40,7 @@
           <div :class="!isWriteComment ? 'chooseStyle' : 'unChooseStyle'" @click="previewComment">
             预览
           </div>
-          <div class="editor-bars" style="width: 80%; text-align: right">
+          <div class="editor-bars" style="width: 70%; text-align: right">
           </div>
         </div>
         <div style="display: block; min-height: 200px">
@@ -60,7 +60,7 @@
       </div>
     </div>
 
-    <div id="comment">
+    <div :class="isPhone ? 'p_comment' : 'comment'">
       <div class="comment-card" v-for="comment in comments">
         <div style="padding: 0 10px; text-align: left; color: #999999;display: flex">
           <div style="width: 92%"><el-link style="margin: 5px 5px; font-size: 1em" :href="comment.site" :disabled="comment.site === ''">{{ comment.username }}</el-link>
@@ -309,7 +309,6 @@ export default {
   },
   created() {
     this.isPhone = document.documentElement.clientWidth < 1200;
-    console.log(this.isPhone)
     this.hideAside()
     setTimeout(this.getArticleDetails, 200)
   },
@@ -398,8 +397,12 @@ export default {
   border-radius: 10px;
 }
 
-#comment {
+.comment {
   margin: 0 24% 30px;
+}
+
+.p_comment {
+  margin: 0 10px 30px;
 }
 
 .commentUser {
@@ -453,6 +456,16 @@ export default {
 .unChooseStyle {
   padding: 5px 10px;
 
+}
+
+.writeDiv {
+  margin: 0 24% 30px;
+  text-align: left;
+}
+
+.p_writeDiv {
+  margin: 0 10px 30px;
+  text-align: left;
 }
 
 </style>
