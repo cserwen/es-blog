@@ -345,7 +345,7 @@ export default {
 
 <style lang="less">
 @import "../css/editor";
-@import "../css/theme2";
+@import "../css/theme";
 @import "../css/markdown.css";
 @import "../assets/font/iconfont.css";
 </style>

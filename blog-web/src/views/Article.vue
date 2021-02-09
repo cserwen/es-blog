@@ -430,7 +430,7 @@ export default {
 #comment-editor {
   border-radius: 5px;
   border: 1px solid #dddddd;
-  max-height: 200px;
+  max-height: 300px;
 }
 
 .write {
