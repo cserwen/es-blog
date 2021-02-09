@@ -4,7 +4,7 @@ public class CommentAddModel {
 
     private String comment;
     private Integer articleId;
-    private Integer replayId;
+    private Integer replyId;
     private String username;
     private String site;
     private String email;
@@ -25,12 +25,12 @@ public class CommentAddModel {
         this.articleId = articleId;
     }
 
-    public Integer getReplayId() {
-        return replayId;
+    public Integer getReplyId() {
+        return replyId;
     }
 
-    public void setReplayId(Integer replayId) {
-        this.replayId = replayId;
+    public void setReplyId(Integer replyId) {
+        this.replyId = replyId;
     }
 
     public String getUsername() {
@@ -62,7 +62,7 @@ public class CommentAddModel {
         return "CommentAddModel{" +
                 "comment='" + comment + '\'' +
                 ", articleId=" + articleId +
-                ", replayId=" + replayId +
+                ", replyId=" + replyId +
                 ", username='" + username + '\'' +
                 ", site='" + site + '\'' +
                 ", email='" + email + '\'' +

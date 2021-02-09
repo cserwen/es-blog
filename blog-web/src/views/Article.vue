@@ -44,7 +44,7 @@
           </div>
         </div>
         <div style="display: block; min-height: 200px">
-          <textarea class="write" v-show="isWriteComment" placeholder="请输入内容" rows="8" v-model="commentContext"></textarea>
+          <textarea class="write" id="write" v-show="isWriteComment" placeholder="请输入内容" rows="8" v-model="commentContext"></textarea>
           <div class="preview markdown-body" v-show="!isWriteComment" v-html="commentHtml">
 
           </div>
@@ -65,12 +65,13 @@
         <div style="padding: 0 10px; text-align: left; color: #999999;display: flex">
           <div style="width: 92%"><el-link style="margin: 5px 5px; font-size: 1em" :href="comment.site" :disabled="comment.site === ''">{{ comment.username }}</el-link>
             <span style="font-size: 0.9em; padding-left: 5px">{{ new Date(comment.createTime).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'') }}</span></div>
-          <div style="width: 8%; text-align: center" class="replay"><el-button type="text" @click="replayComment">replay</el-button></div>
+          <div style="width: 8%; text-align: center" class="replay"><el-button type="text" @click="replayComment(comment)">replay</el-button></div>
         </div>
 <!--        <div style='background-color:#dddddd;height:1px;border:none; margin: 5px 0'/>-->
         <div v-show="comment.replyId !== 0" style="display: flex">
           <blockquote style="padding: 0 10px; color: #6a737d; border-left: .20em solid #97CAFF; margin: 10px 30px 5px">
-            <p style="text-align: left; margin: 1px; color: #888888">{{ comment.replyContent }}</p>
+<!--            <p style="text-align: left; margin: 1px; color: #888888">{{ comment.replyContent }}</p>-->
+            <div v-html="comment.replyContent" style="text-align: left"/>
           </blockquote>
         </div>
         <div  style="text-align: left; margin:3px 20px; color: gray" v-html="comment.comment" class="markdown-body"></div>
@@ -106,7 +107,7 @@ export default {
       username: '',
       site: '',
       email: '',
-      replayId: 0
+      replayId: 0,
     }
   },
   methods: {
@@ -266,7 +267,7 @@ export default {
       this.axios.post("/comment/add", {
         comment: this.commentHtml,
         articleId: this.$route.params.id,
-        replayId: this.replayId,
+        replyId: this.replayId,
         username: this.username === '' ? "陌生人" : this.username,
         site: this.site,
         email: this.email
@@ -278,6 +279,8 @@ export default {
           })
           this.getComments()
           this.commentContext = ''
+          this.commentHtml = ''
+          this.replayId = 0
         }else {
           ElMessage.warning({
             showClose: true,
@@ -303,8 +306,14 @@ export default {
         }
       }).replace(/<pre>/g, "<pre class='hljs'>")
     },
-    replayComment() {
+    replayComment(comment) {
       //TODO
+      let textarea = document.getElementById('write')
+      this.isWriteComment = true
+      this.replayId = comment.id;
+      this.commentContext = '@' + comment.username + ": "
+      textarea.focus()
+
     }
   },
   created() {
