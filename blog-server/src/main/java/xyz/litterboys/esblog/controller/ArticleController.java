@@ -26,7 +26,7 @@ public class ArticleController {
     @PostMapping("create")
     private Object createArticle(@RequestBody Article article) {
         logger.info("insert article #article={}", article);
-        return articleService.createTopic(article);
+        return articleService.createArticle(article);
     }
 
     @DeleteMapping("delete/{articleId}")

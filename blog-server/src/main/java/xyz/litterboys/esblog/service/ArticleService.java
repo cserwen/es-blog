@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public interface ArticleService {
 
-    HashMap<String, Integer> createTopic(Article article);
+    HashMap<String, Integer> createArticle(Article article);
 
     ArticleView getArticleById(int id);
 

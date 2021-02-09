@@ -43,12 +43,9 @@ public class ArticleServiceImpl implements ArticleService {
     private ConfigKey configKey;
 
     @Override
-    public HashMap<String, Integer> createTopic(Article article) {
+    public HashMap<String, Integer> createArticle(Article article) {
         authParams(article);
         HashMap<String, Integer> res = new HashMap<>();
-        Timestamp time = new Timestamp(System.currentTimeMillis());
-        article.setCreateTime(time);
-        article.setUpdateTime(time);
         if (articleMapper.insert(article) > 0){
             res.put("articleId", article.getId());
             return res;

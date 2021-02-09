@@ -57,7 +57,6 @@ public class CommentServiceImpl implements CommentService {
     public Boolean addComment(CommentAddModel comment) {
         Comment comment1 = new Comment();
         BeanUtils.copyProperties(comment, comment1);
-        comment1.setCreateTime(new Timestamp(System.currentTimeMillis()));
         commentMapper.insert(comment1);
         return true;
     }
