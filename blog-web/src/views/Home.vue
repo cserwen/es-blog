@@ -82,10 +82,10 @@ export default {
   mounted() {
     this.getArticleList(1);
     this.isPhone = document.documentElement.clientWidth < 1200;
-    console.log(this.isPhone)
     if (this.isPhone) {
       this.isShow = false
     }
+    document.title = "cserwen - 首页"
   }
 }
 </script>

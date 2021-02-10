@@ -38,6 +38,7 @@ export default {
   mounted() {
     this.getLinkList()
     this.isPhone = document.documentElement.clientWidth < 1200;
+    document.title = "cserwen - 友情链接"
   }
 }
 </script>

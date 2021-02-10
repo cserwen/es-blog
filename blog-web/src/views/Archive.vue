@@ -68,6 +68,7 @@ export default {
   created() {
     this.isPhone = document.documentElement.clientWidth < 1200;
     this.getArchiveList(1)
+    document.title = "cserwen - 归档"
   }
 }
 </script>

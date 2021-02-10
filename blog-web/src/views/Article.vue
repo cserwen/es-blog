@@ -120,6 +120,7 @@ export default {
       }).then(res => {
         if (res.data.code === 0){
           this.article = res.data.data
+          document.title = "cserwen - " + this.article.title
           this.blog = marked(this.article.content, {
             breaks: true,
             gfm: true,
