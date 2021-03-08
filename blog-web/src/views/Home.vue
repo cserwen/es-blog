@@ -3,7 +3,7 @@
     <ul :class="isPhone ? 'p_article-list' : 'article-list'" v-loading="loading">
       <li v-for="article in articles" :class="isPhone ? 'p_list-item' : 'list-item'">
         <div class="article-card" v-show="!isPhone">
-          <el-button type="text" id="title" @click="this.$router.push({name: 'Article', params: {id: article.id}})">{{ article.title }}</el-button>
+          <router-link id="title" target="_blank" :to="{path: '/article', query: {id: article.id}}">{{ article.title }}</router-link>
           <div id="time">{{ new Date(article.createTime).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'') }}</div>
           <div id="description">{{ article.description }}</div>
           <el-button icon="el-icon-position" @click="this.$router.push({name: 'Article', params: {id: article.id}})">开始阅读</el-button>
@@ -12,7 +12,7 @@
                      size="mini" :type="buttonColor[index]" :icon="buttonIcon[index]">{{ tag }}</el-button>
         </div>
         <div class="p_article-card" v-show="isPhone">
-          <el-button type="text" id="p_title" @click="this.$router.push({name: 'Article', params: {id: article.id}})">{{ article.title }}</el-button>
+          <router-link id="p_title" target="_blank" :to="{path: '/article', query: {id: article.id}}">{{ article.title }}</router-link>
           <div id="p_time">{{ new Date(article.createTime).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'') }}</div>
           <div id="p_description">{{ article.description }}</div>
           <el-button icon="el-icon-position" @click="this.$router.push({name: 'Article', params: {id: article.id}})" size="small">开始阅读</el-button>
@@ -129,8 +129,10 @@ export default {
 }
 
 .p_article-card {
+  padding-top: 15px;
+  padding-bottom: 8px;
   margin: 15px 0;
-  height: 185px;
+  min-height: 160px;
   border-radius: 10px;
   border-color: #969896;
   box-shadow:0 0 20px #ddd;
@@ -147,17 +149,20 @@ export default {
 }
 
 #title {
+  text-decoration: none;
   color: #333333;
+  line-height: 60px;
   font-size: 25px;
   transition:  color 300ms;
-  padding-top: 20px;
 }
 
 #p_title {
+  word-break: break-word;
+  text-decoration: none;
+  clear: both;
   color: #333333;
-  font-size: 15px;
+  font-size: 18px;
   transition:  color 300ms;
-  padding-top: 20px;
 }
 
 #title:hover {
@@ -166,12 +171,11 @@ export default {
 
 #time {
   color: #bbbbbb;
-  padding-top: 10px;
 }
 
 #p_time {
   color: #bbbbbb;
-  font-size: 12px;
+  margin-top: 15px;
 }
 
 #description {
