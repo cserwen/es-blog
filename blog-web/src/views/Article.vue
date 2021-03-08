@@ -332,11 +332,12 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-height: 80px;
+  min-height: 80vh;
+  padding-top: 50px;
 }
 
 #article-card {
-  margin: 50px 24%;
+  margin: 0 24% 50px;
   box-shadow:0 0 50px #cccccc;
   padding: 20px;
   border-radius: 15px;

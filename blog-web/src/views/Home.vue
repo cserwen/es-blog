@@ -3,7 +3,7 @@
     <ul :class="isPhone ? 'p_article-list' : 'article-list'" v-loading="loading">
       <li v-for="article in articles" :class="isPhone ? 'p_list-item' : 'list-item'">
         <div class="article-card" v-show="!isPhone">
-          <router-link id="title" target="_blank" :to="{path: '/article', query: {id: article.id}}">{{ article.title }}</router-link>
+          <router-link id="title" :to="'/article/' + article.id" >{{ article.title }}</router-link>
           <div id="time">{{ new Date(article.createTime).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'') }}</div>
           <div id="description">{{ article.description }}</div>
           <el-button icon="el-icon-position" @click="this.$router.push({name: 'Article', params: {id: article.id}})">开始阅读</el-button>
@@ -12,7 +12,7 @@
                      size="mini" :type="buttonColor[index]" :icon="buttonIcon[index]">{{ tag }}</el-button>
         </div>
         <div class="p_article-card" v-show="isPhone">
-          <router-link id="p_title" target="_blank" :to="{path: '/article', query: {id: article.id}}">{{ article.title }}</router-link>
+          <router-link id="p_title" :to="'/article/' + article.id">{{ article.title }}</router-link>
           <div id="p_time">{{ new Date(article.createTime).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'') }}</div>
           <div id="p_description">{{ article.description }}</div>
           <el-button icon="el-icon-position" @click="this.$router.push({name: 'Article', params: {id: article.id}})" size="small">开始阅读</el-button>
